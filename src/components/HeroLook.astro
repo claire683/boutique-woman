@@ -1,0 +1,249 @@
+---
+// Ouverture « Le look » : les pièces flottent, viennent se poser sur la cliente,
+// puis la vraie photo apparaît avec chaque pièce repérée.
+import { lien, boutique, look } from '../data/site';
+const p = (id: string) => look.pieces.find((x) => x.id === id)!;
+---
+<section class="hl" id="ouverture" aria-label="Woman, boutique Liu Jo à Belfort : le look du moment">
+  <div class="hl__scene">
+    <div class="hl__textes">
+      <div class="hl__texte" data-pas="0">
+        <p class="hl__sur"><span>01 / 03</span> Les pièces</p>
+        <h1>Une veste, un flare, une pochette.</h1>
+        <p class="hl__chapo">Les nouveautés Liu&nbsp;Jo arrivent chaque semaine au 36, Faubourg des Ancêtres.</p>
+      </div>
+      <div class="hl__texte" data-pas="1">
+        <p class="hl__sur"><span>02 / 03</span> La tenue</p>
+        <p class="hl__titre">Natacha l'assemble avec vous.</p>
+        <p class="hl__chapo">Elle ajuste les tailles, accorde les couleurs et ose la pièce en plus.</p>
+      </div>
+      <div class="hl__texte" data-pas="2">
+        <p class="hl__sur"><span>03 / 03</span> Le look</p>
+        <p class="hl__titre">Portée par une femme de Belfort.</p>
+        <p class="hl__chapo">Pas de mannequin : nos tenues sont portées par des femmes d'ici, de tous les âges et de toutes les morphologies.</p>
+        <div class="hl__actions">
+          <a class="hl__btn hl__btn--plein" href={lien('/#essayage')} data-ce-look>Je veux ce look</a>
+          <a class="hl__btn" href={boutique.instagram} target="_blank" rel="noopener">Voir les nouveautés</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="hl__cadre">
+      <img class="hl__photo" src={look.photo.src} alt={look.photo.alt} width="1707" height="2560" fetchpriority="high" />
+      <figure class="hl__encart hl__encart--gros"><img src={look.gros.src} alt={look.gros.alt} loading="lazy" width="600" height="900" /></figure>
+      <figure class="hl__encart hl__encart--detail"><img src={look.detail.src} alt={look.detail.alt} loading="lazy" width="600" height="900" /></figure>
+
+      <!-- Les pièces illustrées (coordonnées : la photo fait 100 × 150) -->
+      <svg class="hl__pieces" viewBox="0 0 100 150" aria-hidden="true">
+        <g class="hl__piece" data-sx="30" data-sy="34" data-sr="-12" data-ss="1.7" data-ex={p('veste').x} data-ey={p('veste').y * 1.5}>
+          <path d="M-13 -15 L-20 -6 L-21 14 L-16 15 L-15 -2 Z M13 -15 L20 -6 L21 14 L16 15 L15 -2 Z" fill="#17213a" />
+          <path d="M-13 -15 L-4 -17 L0 -8 L4 -17 L13 -15 L15 13 L-15 13 Z" fill="#1f2a45" />
+          <path d="M-4 -17 L0 -8 L4 -17 M-12 12 L12 12 M-21 12 L-16 13 M21 12 L16 13 M-13 -14 L-14.5 12 M13 -14 L14.5 12" fill="none" stroke="#ece7de" stroke-width="0.45" stroke-dasharray="1 0.7" />
+          <circle cx="-1.6" cy="-4" r="0.9" fill="#caa34c" /><circle cx="-1.6" cy="2" r="0.9" fill="#caa34c" /><circle cx="-1.6" cy="8" r="0.9" fill="#caa34c" />
+        </g>
+        <g class="hl__piece" data-sx="76" data-sy="22" data-sr="9" data-ss="1.8" data-ex={p('top').x} data-ey={p('top').y * 1.5}>
+          <path d="M-4 -8 L4 -8 L6 8 L-6 8 Z" fill="#f5f2ec" stroke="#ddd6ca" stroke-width="0.3" />
+          <circle cx="0" cy="0" r="2.6" fill="none" stroke="#caa34c" stroke-width="0.5" />
+        </g>
+        <g class="hl__piece" data-sx="74" data-sy="72" data-sr="-14" data-ss="1.6" data-ex={p('pochette').x} data-ey={p('pochette').y * 1.5}>
+          <rect x="-10" y="-6" width="20" height="12" rx="1.6" fill="#f3f0ea" stroke="#d8d1c5" stroke-width="0.4" />
+          <path d="M-10 -1.5 L10 -1.5" stroke="#d8d1c5" stroke-width="0.4" />
+          <rect x="7" y="-3" width="2.6" height="3" rx="0.4" fill="#caa34c" />
+        </g>
+        <g class="hl__piece" data-sx="28" data-sy="104" data-sr="7" data-ss="1.25" data-ex={p('pantalon').x} data-ey={p('pantalon').y * 1.5}>
+          <path d="M-9 -31 L9 -31 L10 -5 L16 31 L3 31 L0 -10 L-3 31 L-16 31 L-10 -5 Z" fill="#1b2540" />
+          <path d="M-9 -31 L9 -31 L9 -28 L-9 -28 Z" fill="#141c32" />
+          <path d="M-6 -27 L-9.5 30 M6 -27 L9.5 30" fill="none" stroke="#ece7de" stroke-width="0.4" stroke-dasharray="1 0.7" />
+        </g>
+        <g class="hl__piece" data-sx="72" data-sy="128" data-sr="-6" data-ss="1.8" data-ex={p('escarpins').x} data-ey={p('escarpins').y * 1.5}>
+          <path d="M-13 3 Q-13 -2 -8 -2 L-3 1.5 L-2 4 L-13 4 Z M-13 4 L-12 8 L-11 4 Z" fill="#2d4f8f" />
+          <path d="M1 3 Q1 -2 6 -2 L11 1.5 L12 4 L1 4 Z M1 4 L2 8 L3 4 Z" fill="#33589c" />
+        </g>
+      </svg>
+
+      <!-- Repères sur la vraie photo -->
+      <ul class="hl__reperes">
+        {look.pieces.map((piece, i) => (
+          <li class="hl__repere" style={`left:${piece.x}%;top:${piece.y}%`} data-i={i}>
+            <span class="hl__point"></span><span class="hl__nom">{piece.nom}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <ol class="hl__points" aria-hidden="true"><li></li><li></li><li></li></ol>
+    <p class="hl__defiler" aria-hidden="true">Faites défiler</p>
+    <a class="hl__passer" href={lien('/#vestiaire')}>Passer l'intro ↓</a>
+  </div>
+</section>
+
+<script is:inline>
+  (function () {
+    var sec = document.getElementById('ouverture');
+    if (!sec) return;
+    var pieces = Array.prototype.slice.call(sec.querySelectorAll('.hl__piece'));
+    var textes = Array.prototype.slice.call(sec.querySelectorAll('.hl__texte'));
+    var points = Array.prototype.slice.call(sec.querySelectorAll('.hl__points li'));
+    var reperes = Array.prototype.slice.call(sec.querySelectorAll('.hl__repere'));
+    var encarts = Array.prototype.slice.call(sec.querySelectorAll('.hl__encart'));
+    var photo = sec.querySelector('.hl__photo');
+    var entete = document.querySelector('.entete');
+    var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var lisse = function (t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; };
+    var borne = function (v) { return Math.max(0, Math.min(1, v)); };
+    var visible = true, dernier = -1;
+
+    function mesurer() { if (entete) document.documentElement.style.setProperty('--entete', entete.offsetHeight + 'px'); }
+    mesurer();
+    window.addEventListener('resize', mesurer);
+
+    function progression() {
+      if (reduit) return 1;
+      var r = sec.getBoundingClientRect();
+      var course = sec.offsetHeight - window.innerHeight;
+      return course > 0 ? borne(-r.top / course) : 1;
+    }
+
+    function rendre(temps) {
+      var p = progression();
+      var fondu = 1 - borne((p - 0.5) / 0.12);
+      pieces.forEach(function (g, i) {
+        var d = g.dataset;
+        var e = lisse(borne((p - 0.12 - i * 0.05) / 0.3));
+        var flotte = reduit ? 0 : (1 - e) * Math.sin(temps / 900 + i * 1.7) * 1.6;
+        var x = +d.sx + (+d.ex - +d.sx) * e;
+        var y = +d.sy + (+d.ey - +d.sy) * e + flotte;
+        var rot = +d.sr * (1 - e) + (reduit ? 0 : (1 - e) * Math.sin(temps / 1300 + i) * 3);
+        var s = +d.ss + (1 - +d.ss) * e;
+        g.setAttribute('transform', 'translate(' + x.toFixed(2) + ' ' + y.toFixed(2) + ') rotate(' + rot.toFixed(2) + ') scale(' + s.toFixed(3) + ')');
+        g.style.opacity = String(fondu);
+      });
+      var vue = borne((p - 0.42) / 0.2);
+      photo.style.opacity = String(vue);
+      photo.style.filter = 'grayscale(' + (1 - borne((p - 0.52) / 0.15)).toFixed(2) + ')';
+      photo.style.transform = 'scale(' + (1.04 - 0.04 * vue).toFixed(3) + ')';
+      reperes.forEach(function (r, i) {
+        var v = borne((p - 0.7 - i * 0.035) / 0.06);
+        r.style.opacity = String(v);
+        r.style.transform = 'translateY(' + ((1 - v) * 8).toFixed(1) + 'px)';
+      });
+      encarts.forEach(function (en, i) {
+        var v = borne((p - 0.74 - i * 0.05) / 0.1);
+        en.style.opacity = String(v);
+        en.style.transform = 'translateY(' + ((1 - v) * 24).toFixed(1) + 'px) rotate(' + (i ? 3 : -3) + 'deg)';
+      });
+      var pas = p < 0.3 ? 0 : p < 0.66 ? 1 : 2;
+      if (pas !== dernier) {
+        textes.forEach(function (t, i) { t.classList.toggle('actif', i === pas); t.setAttribute('aria-hidden', i === pas ? 'false' : 'true'); });
+        points.forEach(function (pt, i) { pt.classList.toggle('actif', i === pas); });
+        dernier = pas;
+      }
+      sec.classList.toggle('hl--defile', p > 0.04);
+      if (visible && !reduit) requestAnimationFrame(rendre);
+    }
+
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entrees) {
+        var etait = visible;
+        visible = entrees[0].isIntersecting;
+        if (visible && !etait) requestAnimationFrame(rendre);
+      }).observe(sec);
+    }
+    if (reduit) sec.classList.add('hl--fixe');
+    requestAnimationFrame(rendre);
+
+    // « Je veux ce look » : pré-remplit le module « Préparer mon essayage »
+    var bouton = sec.querySelector('[data-ce-look]');
+    if (bouton) bouton.addEventListener('click', function () {
+      var form = document.querySelector('#essayage form');
+      if (!form) return;
+      ['haut', 'bas', 'veste', 'sac', 'chaussures'].forEach(function (v) {
+        var c = form.querySelector('[name="pieces"][value="' + v + '"]');
+        if (c) c.checked = true;
+      });
+      var bleu = form.querySelector('[name="couleurs"][value="neutres"]');
+      if (bleu) bleu.checked = true;
+      var msg = form.querySelector('[name="message"]');
+      if (msg && !msg.value) msg.value = 'Le look de la page d’accueil : veste courte marine, top blanc, pantalon flare, pochette blanche, escarpins bleus.';
+      form.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+  })();
+</script>
+
+<style>
+  .hl { position: relative; height: 330vh; background: #f5f1ec; }
+  .hl__scene {
+    position: sticky; top: var(--entete, 60px); height: calc(100svh - var(--entete, 60px)); overflow: hidden;
+    display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center;
+    gap: clamp(1.5rem, 5vw, 6rem); padding: 1.5rem clamp(1.25rem, 6vw, 7rem) 3.2rem;
+  }
+  .hl__textes { position: relative; min-height: 22rem; }
+  .hl__texte { position: absolute; inset: 0 0 auto 0; opacity: 0; transform: translateY(18px); transition: opacity 0.5s ease, transform 0.5s ease; pointer-events: none; }
+  .hl__texte.actif { opacity: 1; transform: none; pointer-events: auto; }
+  .hl__sur { margin: 0 0 1rem; font-family: var(--titre); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fuchsia); }
+  .hl__sur span { color: var(--gris); margin-right: 0.8rem; font-weight: 500; }
+  .hl h1, .hl__titre {
+    margin: 0; font-family: var(--titre); font-weight: 700; text-transform: uppercase; letter-spacing: 0.005em;
+    font-size: clamp(2.2rem, 4.6vw, 4.4rem); line-height: 0.98; color: var(--encre); max-width: 13ch;
+  }
+  .hl__chapo { margin: 1.4rem 0 0; max-width: 30rem; font-size: 1.15rem; line-height: 1.55; }
+  .hl__actions { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 1.8rem; }
+  .hl__btn {
+    display: inline-block; padding: 0.85rem 1.5rem; border: 1px solid var(--encre); color: var(--encre); text-decoration: none;
+    font-family: var(--titre); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  }
+  .hl__btn:hover, .hl__btn--plein { background: var(--encre); color: #fff; }
+  .hl__btn--plein:hover { background: var(--fuchsia); border-color: var(--fuchsia); }
+
+  .hl__cadre {
+    position: relative; height: min(calc(100svh - var(--entete, 60px) - 5rem), 860px); aspect-ratio: 2 / 3;
+    background: #e9e2d9; outline: 1px dashed rgb(0 0 0 / 0.12); outline-offset: -1px;
+  }
+  .hl__photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; }
+  .hl__pieces { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 6px 10px rgb(0 0 0 / 0.18)); }
+  .hl__reperes { list-style: none; margin: 0; padding: 0; }
+  .hl__repere { position: absolute; opacity: 0; display: flex; flex-direction: row-reverse; align-items: center; gap: 0.5rem; translate: calc(-100% + 7px) -50%; white-space: nowrap; }
+  .hl__point { width: 14px; height: 14px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 4px rgb(255 255 255 / 0.45), 0 2px 8px rgb(0 0 0 / 0.3); flex: none; }
+  .hl__nom {
+    background: #fff; padding: 0.3rem 0.65rem; font-family: var(--titre); font-size: 0.72rem; font-weight: 700;
+    letter-spacing: 0.04em; text-transform: uppercase; box-shadow: 0 2px 10px rgb(0 0 0 / 0.15);
+  }
+  .hl__encart { position: absolute; margin: 0; width: 42%; aspect-ratio: 2 / 3; background: #fff; padding: 6px; box-shadow: 0 14px 30px rgb(0 0 0 / 0.25); opacity: 0; }
+  .hl__encart img { width: 100%; height: 100%; object-fit: cover; }
+  .hl__encart--gros { left: -34%; top: 8%; }
+  .hl__encart--detail { left: -26%; bottom: -4%; width: 34%; }
+
+  .hl__points { position: absolute; right: clamp(0.8rem, 2vw, 1.6rem); top: 50%; translate: 0 -50%; list-style: none; margin: 0; padding: 0; display: grid; gap: 0.8rem; }
+  .hl__points li { width: 9px; height: 9px; border-radius: 50%; border: 1.5px solid var(--encre); transition: background 0.3s; }
+  .hl__points li.actif { background: var(--encre); }
+  .hl__defiler {
+    position: absolute; left: 50%; bottom: 1.1rem; translate: -50% 0; margin: 0;
+    font-family: var(--titre); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gris); transition: opacity 0.4s;
+  }
+  .hl--defile .hl__defiler { opacity: 0; }
+  .hl__passer {
+    position: absolute; left: clamp(1.25rem, 6vw, 7rem); bottom: 1.1rem; padding: 0.55rem 1rem; background: #fff; border-radius: 999px;
+    font-size: 0.85rem; font-weight: 500; text-decoration: none; box-shadow: 0 4px 14px rgb(0 0 0 / 0.08);
+  }
+
+  .hl--fixe { height: auto; }
+  .hl--fixe .hl__scene { position: relative; top: 0; height: auto; min-height: 80svh; }
+  .hl--fixe .hl__texte { position: relative; display: none; }
+  .hl--fixe .hl__texte[data-pas="2"] { display: block; opacity: 1; transform: none; }
+  .hl--fixe .hl__defiler, .hl--fixe .hl__points, .hl--fixe .hl__passer, .hl--fixe .hl__pieces { display: none; }
+  .hl--fixe .hl__photo, .hl--fixe .hl__repere, .hl--fixe .hl__encart { opacity: 1 !important; }
+
+  @media (max-width: 860px) {
+    .hl { height: 300vh; }
+    .hl__scene { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto 1fr; justify-items: center; align-items: start; padding: 1rem 1.25rem 3.4rem; gap: 0.6rem; }
+    .hl__textes { min-height: 12.5rem; width: 100%; }
+    .hl h1, .hl__titre { font-size: clamp(1.7rem, 7.4vw, 2.4rem); max-width: none; }
+    .hl__chapo { font-size: 0.98rem; margin-top: 0.7rem; }
+    .hl__actions { margin-top: 0.9rem; }
+    .hl__btn { padding: 0.7rem 1.1rem; }
+    .hl__cadre { height: min(calc(100svh - var(--entete, 60px) - 18.5rem), 520px); }
+    .hl__encart, .hl__points { display: none; }
+    .hl__nom { font-size: 0.62rem; padding: 0.22rem 0.45rem; }
+    .hl__point { width: 11px; height: 11px; }
+  }
+</style>

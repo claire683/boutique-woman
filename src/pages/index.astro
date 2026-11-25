@@ -1,17 +1,17 @@
 ---
 import Base from '../layouts/Base.astro';
 import Tenue from '../components/Tenue.astro';
-import HeroPortant from '../components/HeroPortant.astro';
+import HeroLook from '../components/HeroLook.astro';
 import { boutique, horaires, hero, bonjourWoman, collections, avis, magazine } from '../data/site';
 // Codes inspirés de liujo.com : blanc, noir, capitales grasses, photos bord à bord
 const [pap, jeans, maro, chaussures, couture, accessoires] = collections;
 const duo = [pap, maro];
 const quatre = [jeans, chaussures, couture, accessoires];
-const portraits = [magazine.noirEtBlanc, bonjourWoman[1], bonjourWoman[2], bonjourWoman[3], bonjourWoman[4]];
+const portraits = [magazine.noirEtBlanc, bonjourWoman[2], bonjourWoman[3], bonjourWoman[4], bonjourWoman[6]];
 ---
 <Base>
-  <!-- OUVERTURE ANIMÉE : le portant -->
-  <HeroPortant />
+  <!-- OUVERTURE ANIMÉE : le look porté -->
+  <HeroLook />
 
   <!-- LA PHOTO DE GROUPE -->
   <section class="ouverture">

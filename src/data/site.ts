@@ -10,7 +10,7 @@ export const IMAGES_LOCALES = false || import.meta.env.PUBLIC_IMAGES_LOCALES ===
 const DISTANT = 'https://www.boutique-woman.fr/wp-content/uploads/';
 /** Préfixe les liens internes avec le dossier du site (utile sur le site de dev) */
 export const lien = (chemin: string) => import.meta.env.BASE_URL.replace(/\/$/, '') + chemin;
-export const img = (chemin: string) => (IMAGES_LOCALES ? lien('/images/') : DISTANT) + chemin;
+export const img = (chemin: string) => (IMAGES_LOCALES ? lien('/images/') + chemin + '.webp' : DISTANT + chemin);
 
 export const boutique = {
   nom: 'Woman',
@@ -66,6 +66,21 @@ export const magazine = {
   vitrine: { src: img('2015/01/woman-14.jpg'), alt: 'La vitrine de la boutique Woman, Faubourg des Ancêtres' },
   emma: { src: img('2026/10/Emma-1.png'), alt: 'Emma en tenue Liu Jo dans la rue' },
   duo: { src: img('2026/10/DSC_2301-scaled.png'), alt: 'Escarpin Liu Jo bleu contre une porte en bois' },
+};
+
+// Le look de l'ouverture : une tenue réellement portée, et ses pièces
+export const look = {
+  photo: { src: img('2026/10/DSC_2303-scaled.png'), alt: 'Une femme de Belfort porte une veste courte marine, un pantalon flare, une pochette blanche et des escarpins bleus devant une porte en bois' },
+  gros: { src: img('2026/10/DSC_2305-scaled.png'), alt: 'Gros plan sur la veste à surpiqûres et la pochette blanche' },
+  detail: { src: img('2026/10/DSC_2301-scaled.png'), alt: 'Détail des escarpins bleus en daim' },
+  // Positions en % de la photo (x de gauche à droite, y de haut en bas)
+  pieces: [
+    { id: 'veste', nom: 'Veste courte à surpiqûres', x: 66, y: 29 },
+    { id: 'top', nom: 'Top blanc', x: 58, y: 38 },
+    { id: 'pochette', nom: 'Pochette blanche', x: 63, y: 52 },
+    { id: 'pantalon', nom: 'Pantalon flare marine', x: 70, y: 74 },
+    { id: 'escarpins', nom: 'Escarpins en daim', x: 59, y: 95 },
+  ],
 };
 
 export const collections = [
