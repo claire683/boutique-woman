@@ -96,3 +96,43 @@ export const vetements: Record<string, string> = {
     <path d="M67.3 146.4 L68.7 146.4 L68.1 150.4 L67.7 150.4 Z" fill="#14285a"/>
   </svg>`,
 };
+
+// Cintres, crochet et présentoir : ils restent sur le portant quand la pièce est décrochée.
+// Même repère que les vêtements (100 × 150). « crochet » = point d'accroche, en % du cadre.
+const bois = `<linearGradient id="#ID-bois" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d9b48a"/><stop offset=".5" stop-color="#b98a58"/><stop offset="1" stop-color="#8d6338"/></linearGradient>
+  <linearGradient id="#ID-metal" x1="0" x2="1"><stop offset="0" stop-color="#7d7d7d"/><stop offset=".5" stop-color="#e6e6e6"/><stop offset="1" stop-color="#8a8a8a"/></linearGradient>`;
+
+export const cintres: Record<string, { svg: string; crochet: [number, number] }> = {
+  veste: {
+    crochet: [66, 12.6],
+    svg: `<svg viewBox="0 0 100 150">${defs('cv', bois)}
+      <path d="M66 26.8 L66 23 Q66 19.4 68.6 19.4 Q70.8 19.6 70.4 21.8" fill="none" stroke="url(#cv-metal)" stroke-width=".6" stroke-linecap="round"/>
+      <path d="M54.6 31.6 Q60.4 27.6 66 26.4 Q71.6 27.6 77.4 31.6" fill="none" stroke="url(#cv-bois)" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>`,
+  },
+  pantalon: {
+    crochet: [68, 46.6],
+    svg: `<svg viewBox="0 0 100 150">${defs('cp', bois)}
+      <path d="M68 76.6 L68 73.2 Q68 69.6 70.6 69.6 Q72.8 69.8 72.4 72" fill="none" stroke="url(#cp-metal)" stroke-width=".6" stroke-linecap="round"/>
+      <rect x="57.4" y="76.2" width="21.2" height="1.4" rx=".7" fill="url(#cp-bois)"/>
+      <rect x="59.4" y="77" width="2.2" height="3.6" rx=".4" fill="url(#cp-metal)"/>
+      <rect x="74.4" y="77" width="2.2" height="3.6" rx=".4" fill="url(#cp-metal)"/>
+    </svg>`,
+  },
+  pochette: {
+    crochet: [59.4, 38.8],
+    svg: `<svg viewBox="0 0 100 150">${defs('ck', bois)}
+      <g transform="rotate(-11 63 77)">
+        <path d="M63 64 L63 60.6 Q63 57.8 65 57.8 Q66.8 58 66.4 59.8" fill="none" stroke="url(#ck-metal)" stroke-width=".6" stroke-linecap="round"/>
+        <path d="M53 70.6 L63 64 L73 70.6" fill="none" stroke="url(#ck-metal)" stroke-width=".35" stroke-dasharray=".5 .35"/>
+      </g>
+    </svg>`,
+  },
+  escarpins: {
+    crochet: [65, 100.3],
+    svg: `<svg viewBox="0 0 100 150">${defs('cs', bois)}
+      <rect x="53.4" y="150.4" width="25" height="1.6" rx=".4" fill="url(#cs-bois)"/>
+      <rect x="54.6" y="152" width="22.6" height="2.4" fill="#000" opacity=".08"/>
+    </svg>`,
+  },
+};
