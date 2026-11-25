@@ -1,0 +1,17 @@
+---
+interface Props { taille?: 'petit' | 'grand' }
+const { taille = 'petit' } = Astro.props;
+---
+<span class={`logo logo--${taille}`} aria-label="Woman">woman</span>
+
+<style>
+  .logo {
+    font-family: var(--serif);
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    line-height: 1;
+    text-transform: lowercase;
+  }
+  .logo--petit { font-size: 1.9rem; }
+  .logo--grand { font-size: clamp(4rem, 14vw, 11rem); }
+</style>

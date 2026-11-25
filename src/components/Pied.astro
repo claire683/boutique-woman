@@ -1,0 +1,49 @@
+---
+import Logo from './Logo.astro';
+import { lien, boutique } from '../data/site';
+const annee = new Date().getFullYear();
+---
+<footer class="pied">
+  <div class="wrap pied__grille">
+    <div>
+      <Logo />
+      <p>{boutique.accroche}</p>
+    </div>
+    <address>
+      {boutique.adresse}<br />{boutique.ville}<br />
+      <a href={boutique.telephoneLien}>{boutique.telephone}</a>
+    </address>
+    <ul>
+      <li><a href={boutique.instagram} rel="noopener" target="_blank">Instagram</a></li>
+      <li><a href={boutique.facebook} rel="noopener" target="_blank">Facebook</a></li>
+    </ul>
+  </div>
+  <div class="wrap pied__bas">
+    <span>© {annee} Woman Belfort</span>
+    <a href={lien('/mentions-legales/')}>Mentions légales</a>
+    <a href={lien('/politique-rgpd/')}>Confidentialité</a>
+    <span>Site réalisé par <a href="https://www.enbasdechezmoi.fr/" rel="noopener">En bas de chez moi</a></span>
+  </div>
+</footer>
+
+<style>
+  .pied { background: var(--encre); color: var(--rose); padding: 4rem 0 2rem; }
+  .pied__grille {
+    display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 2rem; align-items: start;
+    padding-bottom: 2.5rem; border-bottom: 1px solid color-mix(in srgb, var(--rose) 20%, transparent);
+  }
+  .pied p { margin: 0.6rem 0 0; color: color-mix(in srgb, var(--rose) 75%, transparent); }
+  address { font-style: normal; line-height: 1.8; }
+  ul { list-style: none; margin: 0; padding: 0; line-height: 1.8; }
+  a { text-decoration: none; }
+  a:hover { color: #fff; text-decoration: underline; }
+  .pied__bas {
+    display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; padding-top: 1.5rem;
+    font-size: 0.8rem; color: color-mix(in srgb, var(--rose) 70%, transparent);
+  }
+  .pied__bas span:last-child { margin-left: auto; }
+  @media (max-width: 720px) {
+    .pied__grille { grid-template-columns: 1fr; }
+    .pied__bas span:last-child { margin-left: 0; }
+  }
+</style>

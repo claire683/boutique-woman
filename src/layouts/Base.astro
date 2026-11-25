@@ -1,0 +1,60 @@
+---
+import '../styles/global.css';
+import Entete from '../components/Entete.astro';
+import Pied from '../components/Pied.astro';
+import { lien, boutique, horairesSchema, hero } from '../data/site';
+
+interface Props { titre?: string; description?: string; indexer?: boolean }
+const {
+  titre = 'Woman, votre boutique Liu Jo à Belfort',
+  description = 'Boutique 100 % Liu Jo au Faubourg des Ancêtres à Belfort : prêt-à-porter, jeans, chaussures et maroquinerie choisis par Natacha. Nouveautés toutes les semaines.',
+  indexer = true,
+} = Astro.props;
+const canonique = new URL(Astro.url.pathname, Astro.site);
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'ClothingStore',
+  name: 'Woman, boutique Liu Jo Belfort',
+  url: 'https://www.boutique-woman.fr/',
+  image: hero.photo,
+  telephone: '+33953126174',
+  email: boutique.email,
+  brand: { '@type': 'Brand', name: 'Liu Jo' },
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: boutique.adresse,
+    postalCode: '90000',
+    addressLocality: 'Belfort',
+    addressCountry: 'FR',
+  },
+  openingHoursSpecification: horairesSchema.map((h) => ({ '@type': 'OpeningHoursSpecification', ...h })),
+  sameAs: [boutique.instagram, boutique.facebook],
+};
+---
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{titre}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonique} />
+    {(!indexer || import.meta.env.PUBLIC_DEV === 'true') && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="icon" href={lien('/favicon.svg')} type="image/svg+xml" />
+    <meta name="theme-color" content="#f6dfdf" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:title" content={titre} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonique} />
+    <meta property="og:image" content={hero.photo} />
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  </head>
+  <body>
+    <a class="sr-only" href="#contenu">Aller au contenu</a>
+    <Entete />
+    <main id="contenu"><slot /></main>
+    <Pied />
+  </body>
+</html>

@@ -1,0 +1,301 @@
+---
+import Base from '../layouts/Base.astro';
+import { boutique, horaires, hero, bonjourWoman, collections, avis, img } from '../data/site';
+const bandeau = ['Nouveautés toutes les semaines', '100 % Liu Jo', 'Jeans', 'Sport', 'Prêt-à-porter', 'Couture', 'Chaussures', 'Maroquinerie', 'Faubourg des Ancêtres'];
+---
+<Base>
+  <!-- OUVERTURE -->
+  <section class="ouverture">
+    <div class="wrap ouverture__grille">
+      <div class="ouverture__texte">
+        <p class="kicker">Boutique 100 % Liu Jo · Belfort</p>
+        <h1>Chez Woman,<br /><em>on prend</em><br />le temps.</h1>
+        <p class="ouverture__chapo">
+          Les collections de la marque italienne, choisies chaque saison par Natacha,
+          au cœur du Faubourg des Ancêtres. On essaie, on papote, on se fait plaisir.
+        </p>
+        <div class="ouverture__actions">
+          <a class="btn" href="#venir">Venir en boutique</a>
+          <a class="btn btn--clair" href={boutique.instagram} target="_blank" rel="noopener">@woman.belfort</a>
+        </div>
+      </div>
+      <figure class="ouverture__photo">
+        <img src={hero.photo} alt={hero.alt} width="900" height="1125" fetchpriority="high" />
+        <figcaption class="citation">« Elles portent Woman »</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- BANDEAU -->
+  <div class="bandeau" aria-hidden="true">
+    <div class="bandeau__piste">
+      {[0, 1].map(() => bandeau.map((m) => <span>{m}<i>✦</i></span>))}
+    </div>
+  </div>
+  <p class="sr-only">Nouveautés toutes les semaines. Collections Liu Jo jeans, sport, prêt-à-porter, couture, chaussures et maroquinerie.</p>
+
+  <!-- BONJOUR WOMAN -->
+  <section id="bonjour" class="bonjour">
+    <div class="wrap bonjour__tete">
+      <div>
+        <p class="kicker">Elles portent Woman</p>
+        <h2>Bonjour <em>Woman</em></h2>
+      </div>
+      <p>
+        Pas de mannequins : des femmes de Belfort, de tous les âges et de toutes les morphologies,
+        qui posent en Liu Jo dans nos rues. Chaque matin, l'une d'elles vous dit bonjour
+        sur notre Instagram.
+      </p>
+    </div>
+    <div class="wrap bonjour__nav">
+      <button type="button" data-sens="-1" aria-label="Photos précédentes">←</button>
+      <button type="button" data-sens="1" aria-label="Photos suivantes">→</button>
+    </div>
+    <div class="bonjour__galerie" tabindex="0" aria-label="Galerie Bonjour Woman">
+      {bonjourWoman.map((p, i) => (
+        <figure class={`bonjour__item bonjour__item--${i % 3}`}>
+          <img src={p.src} alt={p.alt} loading="lazy" width="600" height="800" />
+        </figure>
+      ))}
+    </div>
+  </section>
+
+  <!-- COLLECTIONS -->
+  <section id="collections" class="collections">
+    <div class="wrap">
+      <p class="kicker">Les collections</p>
+      <h2>Tout l'univers <em>Liu Jo</em>,<br />du jean à la robe du soir.</h2>
+      <ul class="collections__grille">
+        {collections.map((c) => (
+          <li class="collection">
+            <img src={c.photo} alt={c.alt} loading="lazy" width="500" height="650" />
+            <h3>{c.nom}</h3>
+          </li>
+        ))}
+      </ul>
+      <p class="collections__note">
+        Les arrivages n'ont pas de jour fixe : les nouveautés passent d'abord par
+        <a href={boutique.instagram} target="_blank" rel="noopener">Instagram</a>.
+        Une pièce vous plaît ? Écrivez-nous, on vous la garde.
+      </p>
+    </div>
+  </section>
+
+  <!-- 8 SECONDES -->
+  <section class="huit">
+    <div class="wrap huit__grille">
+      <p class="huit__chiffre" aria-hidden="true">8</p>
+      <div>
+        <p class="kicker">Chaque mardi sur Instagram</p>
+        <h2>8 secondes<br />chez Woman</h2>
+        <p>Une pièce, une idée, huit secondes. Et la question qu'on aime vous poser : <span class="citation">« Je vous la garde ? »</span></p>
+        <a class="btn btn--rose" href={boutique.instagram} target="_blank" rel="noopener">Suivre @woman.belfort</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- HISTOIRE -->
+  <section id="histoire" class="histoire">
+    <div class="wrap histoire__grille">
+      <figure>
+        <img src={img('2015/01/woman-14.jpg')} alt="La vitrine de la boutique Woman, Faubourg des Ancêtres" loading="lazy" width="700" height="900" />
+      </figure>
+      <div>
+        <p class="kicker">La boutique</p>
+        <h2>Un lieu de rendez‑vous depuis 2007</h2>
+        <ol class="frise">
+          <li><strong>2007</strong> Woman ouvre ses portes au Faubourg des Ancêtres.</li>
+          <li><strong>Octobre 2024</strong> Natacha reprend la boutique et la consacre entièrement à Liu Jo.</li>
+          <li><strong>Aujourd'hui</strong> Un dressing immense, des nouveautés chaque semaine, et le temps de bien vous conseiller.</li>
+        </ol>
+        <blockquote class="citation">
+          « On aime vous habiller, partager le café ou l'apéro, papoter et échanger avec vous toutes. »
+          <cite>Natacha</cite>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- AVIS -->
+  <section class="avis">
+    <div class="wrap">
+      <p class="kicker">Elles en parlent</p>
+      <div class="avis__grille">
+        {avis.map((a) => (
+          <figure>
+            <blockquote>{a.texte}</blockquote>
+            <figcaption>{a.auteur}, avis Google</figcaption>
+          </figure>
+        ))}
+      </div>
+      <a class="btn btn--clair" href={boutique.avisGoogle} target="_blank" rel="noopener">Laisser un avis sur Google</a>
+    </div>
+  </section>
+
+  <!-- VENIR -->
+  <section id="venir" class="venir">
+    <div class="wrap venir__grille">
+      <div>
+        <p class="kicker">Venir en boutique</p>
+        <h2>On vous attend<br /><em>au 36.</em></h2>
+        <address>
+          {boutique.adresse}<br />{boutique.ville}
+        </address>
+        <div class="venir__actions">
+          <a class="btn" href={boutique.itineraire} target="_blank" rel="noopener">Itinéraire</a>
+          <a class="btn btn--clair" href={boutique.telephoneLien}>{boutique.telephone}</a>
+        </div>
+      </div>
+      <div class="venir__horaires">
+        <h3>Horaires</h3>
+        <dl>
+          {horaires.map((h) => (<><dt>{h.jour}</dt><dd>{h.heures}</dd></>))}
+        </dl>
+        <p class="venir__natacha">
+          <span class="citation">Et il y a les horaires de Natacha, bien plus étendus :</span>
+          le midi, le soir, le lundi matin. Appelez la boutique pour caler votre rendez-vous.
+        </p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const galerie = document.querySelector<HTMLElement>('.bonjour__galerie');
+  document.querySelectorAll<HTMLButtonElement>('.bonjour__nav button').forEach((b) =>
+    b.addEventListener('click', () => galerie?.scrollBy({ left: Number(b.dataset.sens) * galerie.clientWidth * 0.8, behavior: 'smooth' }))
+  );
+</script>
+
+<style>
+  /* OUVERTURE */
+  .ouverture { background: var(--rose); overflow: hidden; }
+  .ouverture__grille {
+    display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 3rem; align-items: center;
+    padding-block: clamp(3rem, 7vw, 6rem);
+  }
+  .ouverture h1 { font-size: clamp(3rem, 7vw, 6rem); margin: 1.2rem 0 1.6rem; }
+  .ouverture h1 em { color: var(--fuchsia); }
+  .ouverture__chapo { max-width: 32rem; font-size: 1.15rem; margin: 0 0 2.2rem; }
+  .ouverture__actions { display: flex; flex-wrap: wrap; gap: 0.8rem; }
+  .ouverture__photo { position: relative; margin: 0; }
+  .ouverture__photo img {
+    width: 100%; aspect-ratio: 4 / 5; object-fit: cover;
+    border-radius: 999px 999px 0 0; /* arche, comme une vitrine */
+  }
+  .ouverture__photo figcaption {
+    position: absolute; left: -2.5rem; bottom: 2rem; font-size: clamp(1.4rem, 2.6vw, 2.2rem);
+    background: var(--creme); padding: 0.4rem 1.1rem;
+  }
+
+  /* BANDEAU */
+  .bandeau { background: var(--bordeaux); color: var(--rose); overflow: hidden; padding: 1rem 0; }
+  .bandeau__piste { display: flex; width: max-content; animation: defile 40s linear infinite; }
+  .bandeau span {
+    font-family: var(--serif); font-style: italic; font-size: 1.35rem; white-space: nowrap;
+  }
+  .bandeau i { font-style: normal; margin: 0 1.6rem; color: var(--fuchsia); }
+  @keyframes defile { to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) { .bandeau__piste { animation: none; } }
+
+  /* BONJOUR */
+  .bonjour { padding: clamp(4rem, 9vw, 8rem) 0; }
+  .bonjour__tete {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: end; margin-bottom: 3rem;
+  }
+  .bonjour h2 { font-size: clamp(3rem, 7vw, 6rem); margin-top: 0.6rem; }
+  .bonjour h2 em, .collections h2 em, .venir h2 em { color: var(--fuchsia); }
+  .bonjour__tete p { margin: 0; max-width: 34rem; color: var(--gris); }
+  .bonjour__galerie {
+    display: grid; grid-auto-flow: column; grid-auto-columns: clamp(220px, 24vw, 340px);
+    gap: 1rem; overflow-x: auto; padding: 0 var(--bord) 1rem; scroll-padding-inline: var(--bord);
+    --bord: max(1.25rem, calc((100vw - var(--max)) / 2));
+    scroll-snap-type: x mandatory; scrollbar-width: thin;
+  }
+  .bonjour__nav { display: flex; justify-content: flex-end; gap: 0.5rem; margin-bottom: 1rem; }
+  .bonjour__nav button {
+    width: 48px; height: 48px; border: 1px solid var(--encre); background: transparent; color: var(--encre);
+    font-size: 1.2rem; cursor: pointer; transition: background 0.2s, color 0.2s;
+  }
+  .bonjour__nav button:hover { background: var(--encre); color: var(--creme); }
+  .bonjour__item { margin: 0; scroll-snap-align: start; }
+  .bonjour__item img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; }
+  .bonjour__item--1 { margin-top: 3rem; }
+  .bonjour__item--2 { margin-top: 1.5rem; }
+
+  /* COLLECTIONS */
+  .collections { background: var(--rose-pale); padding: clamp(4rem, 9vw, 8rem) 0; }
+  .collections h2 { font-size: clamp(2.4rem, 5vw, 4.4rem); margin: 0.6rem 0 3rem; }
+  .collections__grille {
+    list-style: none; margin: 0; padding: 0;
+    display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 2rem 1rem;
+  }
+  .collection img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; transition: transform 0.6s; }
+  .collection { overflow: hidden; }
+  .collection:hover img { transform: scale(1.04); }
+  .collection h3 { font-size: 1.45rem; margin-top: 0.8rem; }
+  @media (max-width: 1100px) { .collections__grille { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  .collections__note { margin: 3rem 0 0; max-width: 40rem; font-size: 1.1rem; }
+  .collections__note a { color: var(--fuchsia); }
+
+  /* 8 SECONDES */
+  .huit { background: var(--bordeaux); color: var(--rose); padding: clamp(4rem, 8vw, 7rem) 0; }
+  .huit .kicker { color: var(--rose); opacity: 0.8; }
+  .huit__grille { display: grid; grid-template-columns: auto 1fr; gap: clamp(2rem, 6vw, 6rem); align-items: center; }
+  .huit .huit__chiffre {
+    font-family: var(--serif); font-style: italic; font-size: clamp(12rem, 30vw, 24rem);
+    line-height: 0.8; margin: 0; color: var(--fuchsia);
+  }
+  .huit h2 { font-size: clamp(2.6rem, 6vw, 5rem); margin: 0.6rem 0 1.2rem; color: #fff; }
+  .huit p { max-width: 30rem; font-size: 1.15rem; }
+  .huit .citation { color: #fff; }
+  .btn--rose { background: var(--rose); color: var(--bordeaux); border-color: var(--rose); margin-top: 1rem; }
+  .btn--rose:hover { background: #fff; color: var(--bordeaux); border-color: #fff; }
+
+  /* HISTOIRE */
+  .histoire { padding: clamp(4rem, 9vw, 8rem) 0; }
+  .histoire__grille { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: clamp(2rem, 6vw, 6rem); align-items: center; }
+  .histoire figure { margin: 0; }
+  .histoire img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
+  .histoire h2 { font-size: clamp(2.4rem, 5vw, 4.2rem); margin: 0.6rem 0 2rem; text-wrap: balance; }
+  .frise { list-style: none; margin: 0 0 2.5rem; padding: 0; border-left: 1px solid var(--bordeaux); }
+  .frise li { padding: 0 0 1.2rem 1.5rem; position: relative; }
+  .frise li::before {
+    content: ''; position: absolute; left: -5px; top: 0.6em; width: 9px; height: 9px;
+    background: var(--fuchsia); border-radius: 50%;
+  }
+  .frise strong { display: block; font-family: var(--serif); font-size: 1.4rem; font-weight: 400; color: var(--bordeaux); }
+  .histoire blockquote { margin: 0; font-size: clamp(1.5rem, 2.6vw, 2.1rem); line-height: 1.25; }
+  .histoire cite { display: block; margin-top: 0.8rem; font-family: var(--sans); font-style: normal; font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--encre); }
+
+  /* AVIS */
+  .avis { background: var(--rose); padding: clamp(4rem, 8vw, 7rem) 0; }
+  .avis__grille { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2.5rem 4rem; margin: 2rem 0 3rem; }
+  .avis figure { margin: 0; }
+  .avis blockquote { margin: 0; font-family: var(--serif); font-size: clamp(1.25rem, 2vw, 1.6rem); line-height: 1.35; }
+  .avis blockquote::before { content: '« '; color: var(--fuchsia); }
+  .avis blockquote::after { content: ' »'; color: var(--fuchsia); }
+  .avis figcaption { margin-top: 0.8rem; font-size: 0.8rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gris); }
+
+  /* VENIR */
+  .venir { padding: clamp(4rem, 9vw, 8rem) 0; }
+  .venir__grille { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 6vw, 6rem); }
+  .venir h2 { font-size: clamp(2.8rem, 6vw, 5rem); margin: 0.6rem 0 1.6rem; }
+  .venir address { font-style: normal; font-size: 1.3rem; margin-bottom: 2rem; }
+  .venir__actions { display: flex; flex-wrap: wrap; gap: 0.8rem; }
+  .venir__horaires { background: var(--rose-pale); padding: clamp(1.8rem, 4vw, 3rem); align-self: start; }
+  .venir__horaires h3 { font-size: 2rem; margin-bottom: 1.2rem; }
+  .venir dl { display: grid; grid-template-columns: auto 1fr; gap: 0.7rem 1.5rem; margin: 0 0 1.8rem; }
+  .venir dt { font-weight: 500; }
+  .venir dd { margin: 0; }
+  .venir__natacha { margin: 0; border-top: 1px solid color-mix(in srgb, var(--encre) 15%, transparent); padding-top: 1.4rem; }
+  .venir__natacha .citation { display: block; font-size: 1.3rem; margin-bottom: 0.4rem; }
+
+  @media (max-width: 860px) {
+    .ouverture__grille, .bonjour__tete, .histoire__grille, .venir__grille, .huit__grille { grid-template-columns: 1fr; }
+    .ouverture__photo figcaption { left: 1rem; }
+    .collections__grille { grid-template-columns: repeat(2, 1fr); }
+    .avis__grille { grid-template-columns: 1fr; }
+    .huit .huit__chiffre { font-size: 9rem; }
+  }
+</style>
