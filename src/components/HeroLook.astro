@@ -2,7 +2,7 @@
 // Ouverture « Le look » : les pièces, dessinées en volume, flottent, reviennent se poser
 // à leur place sur la cliente, puis la vraie photo apparaît avec chaque pièce repérée.
 import { lien, boutique, look } from '../data/site';
-import { vetements, cintres } from './Vetements';
+import { vetements, cintres, deco } from './Vetements';
 // Le portant : où chaque pièce est accrochée au départ (en % du cadre), sur ordinateur (x, y, s)
 // et sur téléphone (mx, my, ms). y = hauteur de la barre (ou du sol pour les escarpins).
 const portant: Record<string, { x: number; y: number; s: number; mx: number; my: number; ms: number }> = {
@@ -38,6 +38,7 @@ const ordre = ['veste', 'pochette', 'pantalon', 'escarpins'];
     </div>
 
     <div class="hl__plateau">
+      <div class="hl__deco" aria-hidden="true" set:html={deco} />
       <div class="hl__cadre">
         <img class="hl__photo" src={look.photo.src} alt={look.photo.alt} width="1707" height="2560" fetchpriority="high" />
         <figure class="hl__encart hl__encart--gros"><img src={look.gros.src} alt={look.gros.alt} loading="lazy" width="600" height="900" /></figure>
@@ -79,6 +80,7 @@ const ordre = ['veste', 'pochette', 'pantalon', 'escarpins'];
     var pieces = Array.prototype.slice.call(sec.querySelectorAll('.hl__piece'));
     var cintresEl = Array.prototype.slice.call(sec.querySelectorAll('.hl__cintre'));
     var rail = sec.querySelector('.hl__rayon');
+    var decor = sec.querySelector('.hl__deco');
     var textes = Array.prototype.slice.call(sec.querySelectorAll('.hl__texte'));
     var points = Array.prototype.slice.call(sec.querySelectorAll('.hl__points li'));
     var reperes = Array.prototype.slice.call(sec.querySelectorAll('.hl__repere'));
@@ -134,6 +136,7 @@ const ordre = ['veste', 'pochette', 'pantalon', 'escarpins'];
       rail.style.width = (g1 - g0) + '%';
       rail.style.top = (etroit ? 3 : 3) + '%';
       rail.style.opacity = String(rayon);
+      decor.style.opacity = String(rayon);
       var vue = borne((p - 0.5) / 0.14);
       photo.style.opacity = String(vue);
       photo.style.filter = 'grayscale(' + (1 - borne((p - 0.6) / 0.12)).toFixed(2) + ')';
@@ -223,6 +226,9 @@ const ordre = ['veste', 'pochette', 'pantalon', 'escarpins'];
   }
   .hl__piece :global(svg), .hl__cintre :global(svg) { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
   .hl__cintre { position: absolute; inset: 0; pointer-events: none; }
+  /* Le décor de la boutique, derrière le portant */
+  .hl__deco { position: absolute; inset: -0.5rem -2rem 0; border-radius: 4px; overflow: hidden; box-shadow: inset 0 0 60px rgb(0 0 0 / 0.05); }
+  .hl__deco :global(svg) { width: 100%; height: 100%; display: block; }
   /* La barre du portant et ses montants */
   .hl__rayon { position: absolute; height: 1.1%; border-radius: 99px; background: linear-gradient(#5a5a5a, #1c1c1c 60%, #000); translate: 0 -50%; box-shadow: 0 4px 10px rgb(0 0 0 / 0.15); }
   .hl__rayon::before, .hl__rayon::after { content: ''; position: absolute; top: 50%; width: 0.7%; min-width: 4px; height: 8800%; background: linear-gradient(90deg, #2a2a2a, #555, #1a1a1a); }

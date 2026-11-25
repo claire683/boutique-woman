@@ -136,3 +136,112 @@ export const cintres: Record<string, { svg: string; crochet: [number, number] }>
     </svg>`,
   },
 };
+
+// Le décor de la boutique (d'après le reel tourné en boutique) : niche blanche éclairée,
+// étagères et disques en chêne clair, sacs, spots au plafond, sol carrelé blanc.
+const sac = (x: number, y: number, l: number, h: number, couleur: string, id: string, anse = 'haute') => `
+  <g>
+    ${anse === 'haute'
+      ? `<path d="M${x + l * 0.25} ${y} Q${x + l * 0.5} ${y - h * 0.75} ${x + l * 0.75} ${y}" fill="none" stroke="${couleur}" stroke-width="${Math.max(2, l * 0.05)}" stroke-linecap="round"/>`
+      : `<path d="M${x + l * 0.1} ${y + 2} Q${x + l * 0.5} ${y - h * 0.35} ${x + l * 0.9} ${y + 2}" fill="none" stroke="${couleur}" stroke-width="${Math.max(2, l * 0.04)}"/>`}
+    <path d="M${x} ${y + h} L${x + l * 0.06} ${y} L${x + l * 0.94} ${y} L${x + l} ${y + h} Z" fill="url(#${id})"/>
+    <path d="M${x + l * 0.06} ${y} L${x + l * 0.94} ${y} L${x + l * 0.95} ${y + h * 0.22} L${x + l * 0.05} ${y + h * 0.22} Z" fill="#000" opacity=".12"/>
+    <rect x="${x + l * 0.44}" y="${y + h * 0.26}" width="${l * 0.12}" height="${h * 0.1}" rx="1" fill="#d4af5a"/>
+  </g>`;
+
+export const deco = `<svg viewBox="0 0 1000 600" preserveAspectRatio="xMidYMax slice">
+  <defs>
+    <linearGradient id="dc-mur" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#f1ece6"/></linearGradient>
+    <linearGradient id="dc-sol" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ece8e3"/><stop offset="1" stop-color="#fbfaf8"/></linearGradient>
+    <radialGradient id="dc-niche" cx=".5" cy=".15" r=".9"><stop offset="0" stop-color="#ffffff"/><stop offset=".6" stop-color="#f6f3ef"/><stop offset="1" stop-color="#e4ded6"/></radialGradient>
+    <linearGradient id="dc-chene" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ead2ab"/><stop offset=".5" stop-color="#d1aa74"/><stop offset="1" stop-color="#b48a55"/></linearGradient>
+    <radialGradient id="dc-disque" cx=".38" cy=".35" r=".75"><stop offset="0" stop-color="#efd9b3"/><stop offset=".7" stop-color="#d2ab76"/><stop offset="1" stop-color="#b08350"/></radialGradient>
+    <linearGradient id="dc-cognac" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#c98a52"/><stop offset="1" stop-color="#8a5326"/></linearGradient>
+    <linearGradient id="dc-noir" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4a4a4a"/><stop offset="1" stop-color="#111"/></linearGradient>
+    <linearGradient id="dc-taupe" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#b8a594"/><stop offset="1" stop-color="#7d6a5a"/></linearGradient>
+    <linearGradient id="dc-rouge" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d0283a"/><stop offset="1" stop-color="#7e0f1c"/></linearGradient>
+    <linearGradient id="dc-led" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff8e6" stop-opacity=".95"/><stop offset="1" stop-color="#fff8e6" stop-opacity="0"/></linearGradient>
+    <radialGradient id="dc-spot" cx=".5" cy="0" r="1"><stop offset="0" stop-color="#fff6dc" stop-opacity=".7"/><stop offset="1" stop-color="#fff6dc" stop-opacity="0"/></radialGradient>
+  </defs>
+
+  <!-- murs, plafond et sol -->
+  <rect width="1000" height="470" fill="url(#dc-mur)"/>
+  <rect y="470" width="1000" height="130" fill="url(#dc-sol)"/>
+  <path d="M0 470 L1000 470" stroke="#ddd6ce" stroke-width="2"/>
+  <g stroke="#e2ddd6" stroke-width="1.2">
+    <path d="M0 505 L1000 505 M0 548 L1000 548"/>
+    <path d="M500 470 L500 600 M380 470 L300 600 M260 470 L100 600 M140 470 L-100 600 M620 470 L700 600 M740 470 L900 600 M860 470 L1100 600"/>
+  </g>
+  <!-- spots encastrés -->
+  <g fill="#2b2b2b">
+    <rect x="180" y="14" width="34" height="14" rx="2"/><rect x="420" y="14" width="34" height="14" rx="2"/>
+    <rect x="546" y="14" width="34" height="14" rx="2"/><rect x="786" y="14" width="34" height="14" rx="2"/>
+  </g>
+  <g fill="url(#dc-spot)" opacity=".8">
+    <path d="M182 28 L120 200 L276 200 L212 28 Z"/><path d="M422 28 L360 200 L516 200 L452 28 Z"/>
+    <path d="M548 28 L486 200 L642 200 L578 28 Z"/><path d="M788 28 L726 200 L882 200 L818 28 Z"/>
+  </g>
+
+  <!-- niche du fond, éclairée -->
+  <rect x="330" y="92" width="340" height="356" rx="3" fill="url(#dc-niche)"/>
+  <rect x="330" y="92" width="340" height="356" rx="3" fill="none" stroke="#e1dbd2" stroke-width="3"/>
+  <rect x="336" y="98" width="328" height="26" fill="url(#dc-led)"/>
+  <!-- cadres -->
+  <rect x="380" y="118" width="96" height="92" fill="#e9e5df" stroke="#cfc7bb" stroke-width="3"/>
+  <rect x="524" y="118" width="96" height="92" fill="#e9e5df" stroke="#cfc7bb" stroke-width="3"/>
+  <path d="M404 190 Q428 150 452 190 Z M548 190 L596 190 L590 160 L554 160 Z" fill="#8c7764" opacity=".55"/>
+  <!-- étagères en chêne et sacs -->
+  <rect x="346" y="262" width="308" height="11" rx="2" fill="url(#dc-chene)"/>
+  <rect x="346" y="370" width="308" height="11" rx="2" fill="url(#dc-chene)"/>
+  <rect x="346" y="273" width="308" height="8" fill="#000" opacity=".05"/>
+  ${sac(372, 214, 74, 48, '#8a5326', 'dc-cognac')}
+  ${sac(470, 226, 52, 36, '#111', 'dc-noir', 'basse')}
+  ${sac(548, 210, 70, 52, '#111', 'dc-noir')}
+  ${sac(380, 334, 62, 36, '#111', 'dc-noir', 'basse')}
+  ${sac(466, 322, 74, 48, '#7d6a5a', 'dc-taupe')}
+  ${sac(566, 334, 62, 36, '#8a5326', 'dc-cognac', 'basse')}
+
+  <!-- montants en chêne et grands disques -->
+  <g>
+    <rect x="283" y="160" width="16" height="300" fill="url(#dc-chene)"/>
+    <circle cx="291" cy="196" r="46" fill="url(#dc-disque)"/>
+    <rect x="236" y="300" width="70" height="9" rx="2" fill="url(#dc-chene)"/>
+    <rect x="701" y="160" width="16" height="300" fill="url(#dc-chene)"/>
+    <circle cx="709" cy="196" r="46" fill="url(#dc-disque)"/>
+    <rect x="694" y="300" width="70" height="9" rx="2" fill="url(#dc-chene)"/>
+  </g>
+
+  <!-- étagères flottantes blanches sur les côtés -->
+  <g>
+    <rect x="30" y="178" width="190" height="10" fill="#ffffff" stroke="#e2dcd4" stroke-width="2"/>
+    <rect x="30" y="268" width="190" height="10" fill="#ffffff" stroke="#e2dcd4" stroke-width="2"/>
+    ${sac(46, 134, 60, 44, '#111', 'dc-noir')}
+    ${sac(126, 142, 66, 36, '#7e0f1c', 'dc-rouge', 'basse')}
+    ${sac(60, 226, 70, 42, '#8a5326', 'dc-cognac')}
+    <rect x="780" y="178" width="190" height="10" fill="#ffffff" stroke="#e2dcd4" stroke-width="2"/>
+    <rect x="780" y="268" width="190" height="10" fill="#ffffff" stroke="#e2dcd4" stroke-width="2"/>
+    ${sac(800, 138, 64, 40, '#7d6a5a', 'dc-taupe', 'basse')}
+    ${sac(884, 130, 62, 48, '#111', 'dc-noir')}
+    ${sac(830, 224, 74, 44, '#111', 'dc-noir')}
+  </g>
+
+  <!-- portants latéraux chargés (manteaux noirs, rouges, blancs) -->
+  <g opacity=".95">
+    <rect x="20" y="318" width="210" height="5" rx="2" fill="#2b2b2b"/>
+    ${[0, 1, 2, 3, 4, 5, 6, 7].map((i) => {
+      const c = ['#151515', '#b3192b', '#f4f1ec', '#1f1f1f', '#2a2a2a', '#c21f31', '#ece7df', '#121212'][i];
+      return `<path d="M${30 + i * 25} 324 l11 -2 l11 2 l3 120 l-28 0 Z" fill="${c}" stroke="#000" stroke-opacity=".12"/>`;
+    }).join('')}
+    <rect x="770" y="318" width="210" height="5" rx="2" fill="#2b2b2b"/>
+    ${[0, 1, 2, 3, 4, 5, 6, 7].map((i) => {
+      const c = ['#ece7df', '#151515', '#b3192b', '#1c1c1c', '#f4f1ec', '#2a2a2a', '#151515', '#c21f31'][i];
+      return `<path d="M${780 + i * 25} 324 l11 -2 l11 2 l3 120 l-28 0 Z" fill="${c}" stroke="#000" stroke-opacity=".12"/>`;
+    }).join('')}
+  </g>
+
+  <!-- banc cube en chêne -->
+  <rect x="430" y="440" width="140" height="52" rx="3" fill="url(#dc-chene)"/>
+  <rect x="430" y="492" width="140" height="10" fill="#000" opacity=".06"/>
+  <!-- reflets au sol -->
+  <rect x="330" y="472" width="340" height="40" fill="#fff" opacity=".35"/>
+</svg>`;
