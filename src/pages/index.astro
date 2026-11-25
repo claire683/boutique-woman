@@ -240,7 +240,7 @@ const collage = [
   /* BANDEAU */
   .bandeau {
     background: var(--fuchsia); color: #fff; overflow: hidden; padding: 1.1rem 0;
-    rotate: -1.6deg; margin: -1.6rem -2rem 0; position: relative; z-index: 6;
+    rotate: -1.6deg; margin: -1.6rem -4rem 0; position: relative; z-index: 6;
     box-shadow: 0 10px 30px rgb(0 0 0 / 0.15);
   }
   .bandeau__piste { display: flex; width: max-content; animation: defile 38s linear infinite; }
@@ -268,7 +268,7 @@ const collage = [
   .bonjour__tete { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: end; margin-bottom: 2.5rem; }
   .bonjour h2 { font-size: clamp(3.2rem, 8vw, 7rem); line-height: 0.95; margin-top: 0.6rem; }
   .bonjour h2 em { color: var(--fuchsia); }
-  .bonjour__tete p { margin: 0; max-width: 34rem; font-size: 1.1rem; }
+  .bonjour__tete p:not(.kicker) { margin: 0; max-width: 34rem; font-size: 1.1rem; }
   .bonjour__nav { display: flex; gap: 0.5rem; margin-top: 1.4rem; }
   .bonjour__nav button {
     width: 52px; height: 52px; border-radius: 50%; border: 0; background: var(--fuchsia); color: #fff;
@@ -295,7 +295,7 @@ const collage = [
 
   /* COLLECTIONS */
   .collections { background: var(--encre); color: var(--creme); padding: clamp(4.5rem, 9vw, 8rem) 0; }
-  .collections__tete { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 1rem; margin-bottom: 3rem; }
+  .collections__tete { margin-bottom: 3rem; }
   .collections h2 { font-size: clamp(2.8rem, 6.4vw, 5.6rem); line-height: 0.95; margin-top: 0.6rem; }
   .collections h2 em { color: var(--fuchsia-vif); }
   .collections__grille {
@@ -321,6 +321,7 @@ const collage = [
     font-family: var(--serif); font-style: italic; font-size: clamp(14rem, 32vw, 28rem);
     line-height: 0.75; margin: 0; color: var(--rose-vif); text-shadow: 10px 10px 0 var(--bordeaux);
   }
+  .huit .kicker { color: rgb(255 255 255 / 0.85); }
   .huit h2 { font-size: clamp(3rem, 7vw, 6rem); line-height: 0.92; margin: 0.6rem 0 1.4rem; color: #fff; }
   .huit__texte { max-width: 30rem; font-size: 1.2rem; margin: 0; }
   .huit__citation { font-family: var(--serif); font-style: italic; font-size: clamp(2rem, 4vw, 3.2rem); margin: 0.3rem 0 1.8rem; color: var(--bordeaux); }
@@ -345,10 +346,10 @@ const collage = [
   .histoire cite { display: block; margin-top: 0.8rem; font-family: var(--sans); font-style: normal; font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--rose-vif); }
 
   /* AVIS */
-  .avis { background: var(--bordeaux); padding: clamp(4.5rem, 8vw, 7rem) 0; }
+  .avis { background: var(--bordeaux); color: var(--creme); padding: clamp(4.5rem, 8vw, 7rem) 0; }
   .avis__tete { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 2.5rem; }
   .avis__grille { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.4rem; align-items: start; }
-  .avis__carte { margin: 0; background: var(--creme); padding: 2.6rem 1.5rem 1.5rem; position: relative; box-shadow: 0 14px 30px rgb(0 0 0 / 0.25); }
+  .avis__carte { margin: 0; background: var(--creme); color: var(--encre); padding: 2.6rem 1.5rem 1.5rem; position: relative; box-shadow: 0 14px 30px rgb(0 0 0 / 0.25); }
   .avis__carte:nth-child(odd) { rotate: -1.5deg; }
   .avis__carte:nth-child(even) { rotate: 1.5deg; margin-top: 1.5rem; }
   .avis__carte::before {
