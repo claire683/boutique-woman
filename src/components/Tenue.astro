@@ -1,0 +1,368 @@
+---
+// « Préparer mon essayage » : la cliente compose sa tenue en 5 questions,
+// la tenue apparaît sur le portant, et la demande part chez Natacha.
+// Envoi : si PUBLIC_TENUE_WEBHOOK est défini (ex. webhook n8n), envoi direct ;
+// sinon, ouverture d'un e-mail prêt à envoyer à la boutique.
+import { boutique } from '../data/site';
+const webhook = import.meta.env.PUBLIC_TENUE_WEBHOOK ?? '';
+---
+<section id="essayage" class="essayage" data-webhook={webhook} data-email={boutique.email} data-tel={boutique.telephone}>
+  <div class="essayage__tete">
+    <p class="sur">Préparer mon essayage</p>
+    <h2>Composez, Natacha prépare</h2>
+    <p class="essayage__chapo">
+      Dites-nous ce que vous cherchez et quand vous passez : votre cabine vous attend, avec les pièces dans votre taille
+      et quelques idées en plus.
+    </p>
+  </div>
+
+  <div class="essayage__corps">
+    <!-- Le portant -->
+    <figure class="portant" aria-hidden="true">
+      <svg viewBox="0 0 400 420" class="portant__svg">
+        <defs>
+          <pattern id="motif" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(35)">
+            <rect width="10" height="10" fill="#f6dfdf" />
+            <rect width="4" height="10" fill="#111" />
+          </pattern>
+        </defs>
+        <rect x="20" y="40" width="360" height="6" rx="3" fill="#111" />
+        <rect x="26" y="40" width="4" height="360" fill="#111" />
+        <rect x="370" y="40" width="4" height="360" fill="#111" />
+        <rect x="10" y="398" width="380" height="4" fill="#111" />
+        <g class="portant__pieces"></g>
+      </svg>
+      <figcaption class="portant__legende">Votre portant se remplit au fil des réponses.</figcaption>
+    </figure>
+
+    <!-- Le formulaire en étapes -->
+    <form class="etapes" novalidate>
+      <div class="etapes__progression" aria-hidden="true"><span></span></div>
+      <p class="etapes__compteur" aria-live="polite">Étape 1 sur 6</p>
+
+      <fieldset class="etape" data-etape="1">
+        <legend>Pour quelle occasion ?</legend>
+        <div class="choix">
+          <label><input type="radio" name="occasion" value="Tous les jours" /><span>Tous les jours</span></label>
+          <label><input type="radio" name="occasion" value="Le travail" /><span>Le travail</span></label>
+          <label><input type="radio" name="occasion" value="Une soirée, une fête" /><span>Une soirée, une fête</span></label>
+          <label><input type="radio" name="occasion" value="Une cérémonie" /><span>Une cérémonie</span></label>
+          <label class="choix--large"><input type="radio" name="occasion" value="C'est pour offrir" /><span>C'est pour offrir<small>Natacha vous aide à choisir</small></span></label>
+        </div>
+      </fieldset>
+
+      <fieldset class="etape" data-etape="2" hidden>
+        <legend>Qu'est-ce qu'on vous prépare ?<small>Plusieurs choix possibles</small></legend>
+        <div class="choix">
+          <label><input type="checkbox" name="pieces" value="haut" data-libelle="Un haut" /><span>Un haut</span></label>
+          <label><input type="checkbox" name="pieces" value="bas" data-libelle="Un pantalon ou un jean" /><span>Un pantalon, un jean</span></label>
+          <label><input type="checkbox" name="pieces" value="robe" data-libelle="Une robe" /><span>Une robe</span></label>
+          <label><input type="checkbox" name="pieces" value="veste" data-libelle="Une veste ou un manteau" /><span>Une veste, un manteau</span></label>
+          <label><input type="checkbox" name="pieces" value="sac" data-libelle="Un sac" /><span>Un sac</span></label>
+          <label><input type="checkbox" name="pieces" value="chaussures" data-libelle="Des chaussures" /><span>Des chaussures</span></label>
+          <label><input type="checkbox" name="pieces" value="accessoire" data-libelle="Un accessoire" /><span>Un accessoire</span></label>
+          <label><input type="checkbox" name="pieces" value="surprise" data-libelle="Surprenez-moi" /><span>Surprenez-moi</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset class="etape" data-etape="3" hidden>
+        <legend>Plutôt quelles couleurs ?</legend>
+        <div class="choix">
+          <label><input type="radio" name="couleurs" value="neutres" data-libelle="Noir et neutres" /><span><i class="pastille pastille--neutres"></i>Noir et neutres</span></label>
+          <label><input type="radio" name="couleurs" value="vives" data-libelle="Couleurs franches" /><span><i class="pastille pastille--vives"></i>Couleurs franches</span></label>
+          <label><input type="radio" name="couleurs" value="motifs" data-libelle="Imprimés et motifs" /><span><i class="pastille pastille--motifs"></i>Imprimés, motifs</span></label>
+          <label><input type="radio" name="couleurs" value="natacha" data-libelle="Je laisse Natacha choisir" /><span><i class="pastille pastille--natacha"></i>Natacha choisit</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset class="etape" data-etape="4" hidden>
+        <legend>Vos tailles</legend>
+        <div class="champs">
+          <label>Taille de vêtement
+            <select name="taille">
+              <option value="">Je ne sais pas</option>
+              <option>XS / 34</option><option>S / 36</option><option>M / 38</option><option>L / 40</option><option>XL / 42</option><option>XXL / 44</option><option>46 et plus</option>
+            </select>
+          </label>
+          <label>Pointure
+            <select name="pointure">
+              <option value="">Pas de chaussures</option>
+              <option>36</option><option>37</option><option>38</option><option>39</option><option>40</option><option>41</option>
+            </select>
+          </label>
+          <label class="champs--large">Un budget en tête ? <small>(facultatif)</small>
+            <select name="budget">
+              <option value="">Je préfère en parler en boutique</option>
+              <option>Moins de 150 €</option><option>De 150 à 300 €</option><option>Plus de 300 €</option>
+            </select>
+          </label>
+        </div>
+      </fieldset>
+
+      <fieldset class="etape" data-etape="5" hidden>
+        <legend>Quand passez-vous ?</legend>
+        <div class="champs">
+          <label class="champs--large">Le jour
+            <input type="date" name="jour" required />
+          </label>
+        </div>
+        <div class="choix choix--compact">
+          <label><input type="radio" name="moment" value="Le matin" /><span>Le matin</span></label>
+          <label><input type="radio" name="moment" value="Le midi (sur rendez-vous)" /><span>Le midi<small>sur rendez-vous</small></span></label>
+          <label><input type="radio" name="moment" value="L'après-midi" /><span>L'après-midi</span></label>
+          <label><input type="radio" name="moment" value="Le soir (sur rendez-vous)" /><span>Le soir<small>sur rendez-vous</small></span></label>
+        </div>
+        <p class="etape__note">La boutique est fermée le dimanche. Le midi, le soir et le lundi matin, Natacha vous ouvre sur rendez-vous : elle vous confirme le créneau.</p>
+      </fieldset>
+
+      <fieldset class="etape" data-etape="6" hidden>
+        <legend>À qui Natacha confirme-t-elle ?</legend>
+        <div class="champs">
+          <label>Prénom <input type="text" name="prenom" autocomplete="given-name" required /></label>
+          <label>Téléphone <input type="tel" name="telephone" autocomplete="tel" inputmode="tel" required /></label>
+          <label class="champs--large">Un détail à ajouter ? <small>(facultatif)</small>
+            <textarea name="message" rows="2" placeholder="Une pièce vue sur Instagram, une couleur à éviter…"></textarea>
+          </label>
+        </div>
+        <p class="etape__note">Vos réponses servent uniquement à préparer votre essayage. Natacha vous rappelle pour confirmer ; rien n'est réservé ni payé en ligne.</p>
+      </fieldset>
+
+      <div class="etape etape--fin" data-etape="7" hidden>
+        <p class="etape__titre">C'est prêt&nbsp;!</p>
+        <pre class="recap"></pre>
+        <p class="etape__note etape__statut" aria-live="polite"></p>
+      </div>
+
+      <p class="etapes__erreur" role="alert"></p>
+      <div class="etapes__boutons">
+        <button type="button" class="filet" data-action="retour">Retour</button>
+        <button type="button" class="filet filet--plein" data-action="suite">Continuer</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<script>
+  type Piece = { x: number; dessin: (c: string[]) => string };
+  const section = document.querySelector<HTMLElement>('#essayage');
+  if (section) {
+    const form = section.querySelector('form')!;
+    const etapes = [...section.querySelectorAll<HTMLElement>('[data-etape]')];
+    const compteur = section.querySelector('.etapes__compteur')!;
+    const barre = section.querySelector<HTMLElement>('.etapes__progression span')!;
+    const erreur = section.querySelector('.etapes__erreur')!;
+    const btnRetour = section.querySelector<HTMLButtonElement>('[data-action="retour"]')!;
+    const btnSuite = section.querySelector<HTMLButtonElement>('[data-action="suite"]')!;
+    const pieces = section.querySelector('.portant__pieces')!;
+    const legende = section.querySelector('.portant__legende')!;
+    const webhook = section.dataset.webhook || '';
+    const email = section.dataset.email || '';
+    const total = 6;
+    let courante = 1;
+
+    // Date : pas avant aujourd'hui
+    const champJour = form.querySelector<HTMLInputElement>('input[name="jour"]')!;
+    const aujourd = new Date();
+    champJour.min = new Date(aujourd.getTime() - aujourd.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+
+    const palettes: Record<string, string[]> = {
+      neutres: ['#111111', '#d8cdc1', '#8b7765'],
+      vives: ['#c8137a', '#6b1526', '#e9a23b'],
+      motifs: ['url(#motif)', '#111111', '#c8137a'],
+      natacha: ['#f6dfdf', '#111111', '#b8956f'],
+      '': ['#cfc6bf', '#111111', '#9c8f86'],
+    };
+    const crochet = (x: number) => `<path d="M${x} 46 v10 q0 6 -6 6" fill="none" stroke="#111" stroke-width="2.5"/><path d="M${x - 34} 92 L${x} 62 L${x + 34} 92" fill="none" stroke="#111" stroke-width="2.5"/>`;
+    const formes: Record<string, Piece> = {
+      haut: { x: 0, dessin: (c) => `<path d="M-34 92 L-22 84 Q0 96 22 84 L34 92 L46 128 L32 134 L28 116 L28 190 L-28 190 L-28 116 L-32 134 L-46 128 Z" fill="${c[0]}"/>` },
+      bas: { x: 0, dessin: (c) => `<rect x="-30" y="86" width="60" height="6" fill="#111"/><path d="M-28 92 L28 92 L34 300 L8 300 L0 150 L-8 300 L-34 300 Z" fill="${c[1]}"/>` },
+      robe: { x: 0, dessin: (c) => `<path d="M-20 88 Q0 100 20 88 L26 140 L54 300 L-54 300 L-26 140 Z" fill="${c[0]}"/><path d="M-26 140 L26 140" stroke="#111" stroke-width="3"/>` },
+      veste: { x: 0, dessin: (c) => `<path d="M-36 92 L-12 84 L0 140 L12 84 L36 92 L50 150 L44 260 L-44 260 L-50 150 Z" fill="${c[2]}"/><path d="M0 140 L0 260" stroke="rgba(0,0,0,.35)" stroke-width="2"/><circle cx="-6" cy="170" r="3" fill="#111"/><circle cx="-6" cy="200" r="3" fill="#111"/>` },
+      accessoire: { x: 0, dessin: (c) => `<path d="M-16 90 Q0 110 16 90 L22 220 L8 214 L4 120 L-4 120 L-8 214 L-22 220 Z" fill="${c[0] === 'url(#motif)' ? 'url(#motif)' : c[2]}"/>` },
+      surprise: { x: 0, dessin: () => `<rect x="-34" y="96" width="68" height="70" fill="#c8137a"/><rect x="-4" y="96" width="8" height="70" fill="#111"/><rect x="-34" y="126" width="68" height="8" fill="#111"/><text x="0" y="200" text-anchor="middle" font-family="serif" font-style="italic" font-size="22" fill="#111">surprise</text>` },
+    };
+    const sac = (c: string[]) => `<g transform="translate(0,0)"><path d="M300 330 q20 -40 40 0" fill="none" stroke="#111" stroke-width="4"/><rect x="290" y="330" width="60" height="44" rx="4" fill="${c[1] === '#111111' ? '#111' : c[1]}"/><rect x="314" y="344" width="12" height="6" fill="#d4af37"/></g>`;
+    const chaussures = (c: string[]) => `<path d="M60 396 L60 360 L74 360 L76 384 L104 390 L104 398 Z" fill="${c[1] === '#111111' ? '#111' : c[1]}"/><path d="M110 396 L110 360 L124 360 L126 384 L154 390 L154 398 Z" fill="${c[1] === '#111111' ? '#111' : c[1]}"/>`;
+
+    const valeur = (nom: string) => (form.querySelector<HTMLInputElement>(`[name="${nom}"]:checked`)?.value ?? '');
+    const coches = (nom: string) => [...form.querySelectorAll<HTMLInputElement>(`[name="${nom}"]:checked`)];
+
+    function dessiner() {
+      const c = palettes[valeur('couleurs')] ?? palettes[''];
+      const choisies = coches('pieces').map((i) => i.value);
+      const surCintre = choisies.filter((p) => formes[p]);
+      const largeur = 300;
+      const pas = surCintre.length > 1 ? largeur / (surCintre.length - 1) : 0;
+      let svg = '';
+      surCintre.forEach((p, i) => {
+        const x = surCintre.length === 1 ? 200 : 50 + i * pas;
+        const echelle = surCintre.length > 3 ? 0.72 : surCintre.length > 2 ? 0.85 : 1;
+        svg += `<g class="piece" transform="translate(${x},0) scale(${echelle}) translate(0,${(46 * (1 - echelle)) / echelle})">${crochet(0)}${formes[p].dessin(c)}</g>`;
+      });
+      if (choisies.includes('sac')) svg += sac(c);
+      if (choisies.includes('chaussures')) svg += chaussures(c);
+      pieces.innerHTML = svg;
+      const occasion = valeur('occasion');
+      const libelles = coches('pieces').map((i) => i.dataset.libelle?.toLowerCase());
+      legende.textContent = libelles.length
+        ? [occasion, libelles.join(', ')].filter(Boolean).join(' · ')
+        : occasion || 'Votre portant se remplit au fil des réponses.';
+    }
+
+    function valider(n: number): string {
+      if (n === 1 && !valeur('occasion')) return 'Choisissez une occasion.';
+      if (n === 2 && !coches('pieces').length) return 'Choisissez au moins une pièce.';
+      if (n === 3 && !valeur('couleurs')) return 'Choisissez une ambiance de couleurs.';
+      if (n === 5) {
+        if (!champJour.value) return 'Indiquez le jour de votre passage.';
+        if (new Date(champJour.value + 'T12:00').getDay() === 0) return 'La boutique est fermée le dimanche : choisissez un autre jour.';
+        if (champJour.value < champJour.min) return 'Ce jour est déjà passé.';
+        if (!valeur('moment')) return 'Choisissez un moment de la journée.';
+      }
+      if (n === 6) {
+        const prenom = (form.elements.namedItem('prenom') as HTMLInputElement).value.trim();
+        const tel = (form.elements.namedItem('telephone') as HTMLInputElement).value.replace(/[\s.\-]/g, '');
+        if (!prenom) return 'Indiquez votre prénom.';
+        if (!/^(\+33|0)[1-9]\d{8}$/.test(tel)) return 'Indiquez un numéro de téléphone valide (ex. 06 12 34 56 78).';
+      }
+      return '';
+    }
+
+    function recap(): string {
+      const f = (nom: string) => ((form.elements.namedItem(nom) as HTMLInputElement | null)?.value ?? '').trim();
+      const jour = champJour.value ? new Date(champJour.value + 'T12:00').toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' }) : '';
+      return [
+        `Prénom : ${f('prenom')}`,
+        `Téléphone : ${f('telephone')}`,
+        `Passage : ${jour}, ${valeur('moment').toLowerCase()}`,
+        `Occasion : ${valeur('occasion')}`,
+        `À préparer : ${coches('pieces').map((i) => i.dataset.libelle).join(', ')}`,
+        `Couleurs : ${form.querySelector<HTMLInputElement>('[name="couleurs"]:checked')?.dataset.libelle ?? ''}`,
+        `Taille : ${f('taille') || 'non précisée'}`,
+        `Pointure : ${f('pointure') || 'non précisée'}`,
+        `Budget : ${f('budget') || 'à voir en boutique'}`,
+        f('message') ? `Précisions : ${f('message')}` : '',
+      ].filter(Boolean).join('\n');
+    }
+
+    function afficher(n: number) {
+      courante = n;
+      etapes.forEach((e) => (e.hidden = Number(e.dataset.etape) !== n));
+      const fin = n > total;
+      compteur.textContent = fin ? 'Récapitulatif' : `Étape ${n} sur ${total}`;
+      barre.style.width = `${Math.min(n, total) / total * 100}%`;
+      btnRetour.disabled = n === 1;
+      btnSuite.textContent = n === total ? 'Voir le récapitulatif' : fin ? (webhook ? 'Envoyer à Natacha' : 'Envoyer par e-mail') : 'Continuer';
+      erreur.textContent = '';
+      if (fin) section.querySelector('.recap')!.textContent = recap();
+      const legend = etapes.find((e) => Number(e.dataset.etape) === n)?.querySelector('legend, .etape__titre') as HTMLElement | null;
+      legend?.setAttribute('tabindex', '-1');
+    }
+
+    async function envoyer() {
+      const statut = section.querySelector('.etape__statut')!;
+      const texte = recap();
+      if (webhook) {
+        btnSuite.disabled = true;
+        statut.textContent = 'Envoi en cours…';
+        try {
+          const rep = await fetch(webhook, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ source: 'site boutique-woman.fr', recap: texte, ...Object.fromEntries(new FormData(form)) }) });
+          if (!rep.ok) throw new Error(String(rep.status));
+          statut.textContent = 'Merci ! Natacha a bien reçu votre demande et vous rappelle pour confirmer.';
+          btnSuite.hidden = true;
+        } catch {
+          statut.textContent = `L'envoi n'a pas fonctionné. Appelez-nous au ${section.dataset.tel}, ou réessayez.`;
+          btnSuite.disabled = false;
+        }
+      } else {
+        const sujet = encodeURIComponent('Préparer mon essayage chez Woman');
+        const corps = encodeURIComponent(`Bonjour Natacha,\n\nPouvez-vous me préparer un essayage ?\n\n${texte}\n\nMerci !`);
+        window.location.href = `mailto:${email}?subject=${sujet}&body=${corps}`;
+        statut.textContent = `Votre messagerie s'ouvre avec la demande prête : il ne reste qu'à l'envoyer. Rien ne s'ouvre ? Appelez-nous au ${section.dataset.tel}.`;
+      }
+    }
+
+    btnSuite.addEventListener('click', () => {
+      if (courante > total) { envoyer(); return; }
+      const msg = valider(courante);
+      if (msg) { erreur.textContent = msg; return; }
+      afficher(courante + 1);
+    });
+    btnRetour.addEventListener('click', () => { if (courante > 1) afficher(courante - 1); });
+    form.addEventListener('change', dessiner);
+    form.addEventListener('submit', (e) => e.preventDefault());
+    afficher(1);
+    dessiner();
+  }
+</script>
+
+<style>
+  .essayage { background: #f6f4f2; padding: clamp(4rem, 8vw, 7rem) clamp(1rem, 3vw, 2.5rem); }
+  .essayage__tete { max-width: var(--max); margin: 0 auto 2.5rem; }
+  .sur { margin: 0 0 0.8rem; font-family: var(--titre); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gris); }
+  .essayage h2 { font-family: var(--titre); font-weight: 700; text-transform: uppercase; font-size: clamp(2rem, 5vw, 4rem); line-height: 1; }
+  .essayage__chapo { max-width: 38rem; margin: 1rem 0 0; font-size: 1.1rem; }
+  .essayage__corps { max-width: var(--max); margin: 0 auto; display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(1.5rem, 4vw, 4rem); align-items: start; }
+
+  .portant { margin: 0; background: #fff; padding: 1.5rem 1.5rem 1rem; position: sticky; top: 110px; }
+  .portant__svg { width: 100%; height: auto; display: block; }
+  .portant__svg :global(.piece) { animation: arrive 0.45s ease both; }
+  @keyframes arrive { from { opacity: 0; transform: translateY(-12px); } }
+  @media (prefers-reduced-motion: reduce) { .portant__svg :global(.piece) { animation: none; } }
+  .portant__legende { margin-top: 0.8rem; text-align: center; font-family: var(--serif); font-style: italic; font-size: 1.05rem; min-height: 1.5em; }
+
+  .etapes { background: #fff; padding: clamp(1.4rem, 3vw, 2.4rem); }
+  .etapes__progression { height: 3px; background: #e7e1dd; margin-bottom: 1rem; }
+  .etapes__progression span { display: block; height: 100%; width: 0; background: var(--encre); transition: width 0.3s; }
+  .etapes__compteur { margin: 0 0 1rem; font-family: var(--titre); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gris); }
+  .etape { border: 0; margin: 0; padding: 0; }
+  .etape legend, .etape__titre { font-family: var(--titre); font-weight: 700; font-size: 1.5rem; margin-bottom: 1.2rem; padding: 0; }
+  .etape legend small { display: block; font-weight: 400; font-size: 0.9rem; color: var(--gris); margin-top: 0.2rem; }
+  .choix { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.6rem; }
+  .choix--compact { margin-top: 1rem; }
+  .choix--large { grid-column: 1 / -1; }
+  .choix label { position: relative; cursor: pointer; }
+  .choix input { position: absolute; opacity: 0; pointer-events: none; }
+  .choix span {
+    display: flex; flex-direction: column; justify-content: center; min-height: 3.4rem; padding: 0.7rem 1rem;
+    border: 1px solid #cfc7c2; font-weight: 500; transition: border-color 0.15s, background 0.15s, color 0.15s;
+  }
+  .choix span small { font-weight: 400; font-size: 0.82rem; opacity: 0.75; }
+  .choix label:hover span { border-color: var(--encre); }
+  .choix input:checked + span { background: var(--encre); border-color: var(--encre); color: #fff; }
+  .choix input:focus-visible + span { outline: 2px solid var(--fuchsia); outline-offset: 2px; }
+  .pastille { display: inline-block; width: 1.4rem; height: 0.7rem; margin-bottom: 0.35rem; border: 1px solid rgb(0 0 0 / 0.2); }
+  .pastille--neutres { background: linear-gradient(90deg, #111 33%, #d8cdc1 33% 66%, #8b7765 66%); }
+  .pastille--vives { background: linear-gradient(90deg, #c8137a 33%, #6b1526 33% 66%, #e9a23b 66%); }
+  .pastille--motifs { background: repeating-linear-gradient(55deg, #111 0 3px, #f6dfdf 3px 7px); }
+  .pastille--natacha { background: linear-gradient(90deg, #f6dfdf 33%, #111 33% 66%, #b8956f 66%); }
+
+  .champs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+  .champs--large { grid-column: 1 / -1; }
+  .champs label { display: flex; flex-direction: column; gap: 0.4rem; font-weight: 500; font-size: 0.95rem; }
+  .champs small { font-weight: 400; color: var(--gris); }
+  .champs input, .champs select, .champs textarea {
+    font: inherit; font-size: 16px; padding: 0.75rem 0.8rem; border: 1px solid #cfc7c2; background: #fff; border-radius: 0; color: var(--encre);
+  }
+  .champs input:focus, .champs select:focus, .champs textarea:focus { outline: 2px solid var(--encre); outline-offset: 0; }
+  .etape__note { margin: 1rem 0 0; font-size: 0.88rem; color: var(--gris); }
+  .recap { white-space: pre-wrap; font-family: var(--sans); font-size: 0.95rem; line-height: 1.7; background: #f6f4f2; padding: 1rem 1.2rem; margin: 0; }
+  .etapes__erreur { min-height: 1.4em; margin: 1rem 0 0; color: #b0002a; font-weight: 500; font-size: 0.92rem; }
+  .etapes__boutons { display: flex; justify-content: space-between; gap: 1rem; margin-top: 0.6rem; }
+  .filet {
+    padding: 0.8rem 1.6rem; border: 1px solid var(--encre); background: #fff; color: var(--encre); cursor: pointer;
+    font-family: var(--titre); font-size: 0.8rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  }
+  .filet:disabled { opacity: 0.35; cursor: default; }
+  .filet--plein { background: var(--encre); color: #fff; }
+  .filet:not(:disabled):hover { background: var(--encre); color: #fff; }
+
+  @media (max-width: 800px) {
+    .essayage__corps { grid-template-columns: minmax(0, 1fr); }
+    .portant { position: static; padding: 1rem; }
+    .portant__svg { max-height: 240px; }
+  }
+  @media (max-width: 420px) {
+    .choix, .champs { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>

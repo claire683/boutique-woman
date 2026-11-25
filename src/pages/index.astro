@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import Tenue from '../components/Tenue.astro';
 import { boutique, horaires, hero, bonjourWoman, collections, avis, magazine } from '../data/site';
 // Codes inspirés de liujo.com : blanc, noir, capitales grasses, photos bord à bord
 const [pap, jeans, maro, chaussures, couture, accessoires] = collections;
@@ -15,7 +16,7 @@ const portraits = [magazine.noirEtBlanc, bonjourWoman[1], bonjourWoman[2], bonjo
       <h1>Chez Woman,<br />on prend le temps</h1>
       <p>Boutique 100 % Liu&nbsp;Jo · Belfort</p>
       <div class="actions">
-        <a class="filet filet--blanc" href="#venir">Venir en boutique</a>
+        <a class="filet filet--blanc" href="#essayage">Préparer mon essayage</a>
         <a class="filet filet--blanc" href={boutique.instagram} target="_blank" rel="noopener">Voir les nouveautés</a>
       </div>
     </div>
@@ -43,6 +44,9 @@ const portraits = [magazine.noirEtBlanc, bonjourWoman[1], bonjourWoman[2], bonjo
       ))}
     </ul>
   </section>
+
+  <!-- PRÉPARER MON ESSAYAGE (idée « composer ma tenue ») -->
+  <Tenue />
 
   <!-- ELLES PORTENT WOMAN -->
   <section id="bonjour" class="portraits">
