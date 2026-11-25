@@ -191,11 +191,11 @@ const webhook = import.meta.env.PUBLIC_TENUE_WEBHOOK ?? '';
       const c = palettes[valeur('couleurs')] ?? palettes[''];
       const choisies = coches('pieces').map((i) => i.value);
       const surCintre = choisies.filter((p) => formes[p]);
-      const largeur = 300;
+      const largeur = surCintre.length > 3 ? 240 : 200;
       const pas = surCintre.length > 1 ? largeur / (surCintre.length - 1) : 0;
       let svg = '';
       surCintre.forEach((p, i) => {
-        const x = surCintre.length === 1 ? 200 : 50 + i * pas;
+        const x = surCintre.length === 1 ? 200 : 200 - largeur / 2 + i * pas;
         const echelle = surCintre.length > 3 ? 0.72 : surCintre.length > 2 ? 0.85 : 1;
         svg += `<g class="piece" transform="translate(${x},0) scale(${echelle}) translate(0,${(46 * (1 - echelle)) / echelle})">${crochet(0)}${formes[p].dessin(c)}</g>`;
       });
