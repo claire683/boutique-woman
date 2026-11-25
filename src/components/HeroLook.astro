@@ -236,12 +236,14 @@ const p = (id: string) => look.pieces.find((x) => x.id === id)!;
   @media (max-width: 860px) {
     .hl { height: 300vh; }
     .hl__scene { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto 1fr; justify-items: center; align-items: start; padding: 1rem 1.25rem 3.4rem; gap: 0.6rem; }
-    .hl__textes { min-height: 12.5rem; width: 100%; }
+    .hl__textes { min-height: 15.2rem; width: 100%; }
+    .hl__texte[data-pas="2"] .hl__chapo { display: none; }
+    .hl__defiler { display: none; }
     .hl h1, .hl__titre { font-size: clamp(1.7rem, 7.4vw, 2.4rem); max-width: none; }
     .hl__chapo { font-size: 0.98rem; margin-top: 0.7rem; }
     .hl__actions { margin-top: 0.9rem; }
     .hl__btn { padding: 0.7rem 1.1rem; }
-    .hl__cadre { height: min(calc(100svh - var(--entete, 60px) - 18.5rem), 520px); }
+    .hl__cadre { height: min(calc(100svh - var(--entete, 60px) - 20.5rem), 520px); }
     .hl__encart, .hl__points { display: none; }
     .hl__nom { font-size: 0.62rem; padding: 0.22rem 0.45rem; }
     .hl__point { width: 11px; height: 11px; }
