@@ -76,15 +76,11 @@ export const look = {
   detail: { src: img('2026/10/DSC_2301-scaled.png'), alt: 'Détail des escarpins bleus en daim' },
   // Positions en % de la photo (x de gauche à droite, y de haut en bas)
   // Positions en % de la photo (x de gauche à droite, y de haut en bas).
-  // « contour » : la pièce découpée dans la photo (polygone en %), pour l'animation.
   pieces: [
-    { id: 'veste', nom: 'Veste courte à surpiqûres', x: 68, y: 29,
-      contour: '64.8% 17.6%, 68.5% 17%, 75% 18.5%, 78.5% 22.5%, 79.3% 32%, 79.2% 43.4%, 74% 43.8%, 63% 46.4%, 57% 43%, 53.5% 41%, 54.5% 36%, 56.5% 31%, 59.5% 26%, 62.5% 21.5%' },
+    { id: 'veste', nom: 'Veste courte à surpiqûres', x: 68, y: 29 },
     { id: 'top', nom: 'Top blanc', x: 59, y: 34 },
-    { id: 'pochette', nom: 'Pochette blanche', x: 63, y: 51,
-      contour: '50.3% 49.5%, 62% 46.5%, 73.8% 43.6%, 77% 45.5%, 77% 52.5%, 64% 55.8%, 53.4% 58.6%, 49.4% 54%' },
-    { id: 'pantalon', nom: 'Pantalon flare marine', x: 71, y: 74,
-      contour: '53.5% 58.8%, 64% 56%, 77.2% 52.8%, 78.2% 56%, 78% 64%, 78.4% 91%, 79.6% 97.6%, 59.4% 97.8%, 63.4% 91%, 62.6% 71%, 60.5% 65%, 57% 61%, 56% 68%, 57.2% 79.6%, 44.4% 81.2%, 45% 77%, 46.2% 69.5%, 46.5% 61%, 49% 58.5%' },
+    { id: 'pochette', nom: 'Pochette blanche', x: 63, y: 51 },
+    { id: 'pantalon', nom: 'Pantalon flare marine', x: 71, y: 74 },
     { id: 'escarpins', nom: 'Escarpins en daim', x: 64, y: 96 },
   ],
 };
