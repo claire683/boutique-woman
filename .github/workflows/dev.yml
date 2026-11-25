@@ -29,7 +29,8 @@ jobs:
           PUBLIC_IMAGES_LOCALES: 'true'
           PUBLIC_DEV: 'true'
       - name: Robots du site de dev
-        run: printf 'User-agent: *\nDisallow: /\n' > dist/robots.txt
+        run: |
+          printf 'User-agent: *\nDisallow: /\n' > dist/robots.txt
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
