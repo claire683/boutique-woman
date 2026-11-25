@@ -37,7 +37,6 @@ for (const [nom, url] of Object.entries(sources)) {
   const brut = Buffer.from(await rep.arrayBuffer());
   const m0 = await sharp(brut).metadata();
   console.log('reçu', nom, m0.format, m0.width + 'x' + m0.height, Math.round(brut.length / 1024) + ' ko');
-  await writeFile(`public/ia/brut-${nom}.jpg`, await sharp(brut).resize({ width: 400 }).flatten({ background: '#ff00ff' }).jpeg({ quality: 70 }).toBuffer());
   const png = await sharp(brut).resize({ height: 1400, withoutEnlargement: true }).png().toBuffer();
   let detoure = null, methode = '';
   if (removeBackground) {

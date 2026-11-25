@@ -2,7 +2,7 @@
 // Ouverture « Le look » : les pièces, dessinées en volume, flottent, reviennent se poser
 // à leur place sur la cliente, puis la vraie photo apparaît avec chaque pièce repérée.
 import { lien, boutique, look } from '../data/site';
-import { vetements, cintres, deco } from './Vetements';
+import { cintres, deco } from './Vetements';
 // Le portant : où chaque pièce est accrochée au départ (en % du cadre), sur ordinateur (x, y, s)
 // et sur téléphone (mx, my, ms). y = hauteur de la barre (ou du sol pour les escarpins).
 const portant: Record<string, { x: number; y: number; s: number; mx: number; my: number; ms: number }> = {
@@ -12,6 +12,14 @@ const portant: Record<string, { x: number; y: number; s: number; mx: number; my:
   escarpins: { x: 66, y: 96, s: 1.15, mx: 50, my: 97, ms: 0.62 },
 };
 const ordre = ['veste', 'pochette', 'pantalon', 'escarpins'];
+// Visuels générés par IA (Canva), détourés : position sur la cliente en % du cadre (l, t, w),
+// part haute à masquer quand la pièce quitte son cintre (decroche), et crochet propre quand le cintre est dans l'image.
+const ia: Record<string, { l: number; t: number; w: number; decroche: number; crochet?: [number, number] }> = {
+  veste: { l: 50, t: 14.2, w: 32, decroche: 13, crochet: [66.8, 14.2] },
+  pochette: { l: 49.2, t: 45.6, w: 27.5, decroche: 0 },
+  pantalon: { l: 52.8, t: 48.8, w: 30.3, decroche: 8, crochet: [68.1, 48.8] },
+  escarpins: { l: 56.9, t: 89.7, w: 19.1, decroche: 0 },
+};
 ---
 <section class="hl" id="ouverture" aria-label="Woman, boutique Liu Jo à Belfort : le look du moment">
   <div class="hl__scene">
@@ -45,14 +53,19 @@ const ordre = ['veste', 'pochette', 'pantalon', 'escarpins'];
         <figure class="hl__encart hl__encart--detail"><img src={look.detail.src} alt={look.detail.alt} loading="lazy" width="600" height="900" /></figure>
 
         <div class="hl__rayon" aria-hidden="true"></div>
+        <p class="hl__mention">Illustration générée par IA</p>
         {ordre.map((id) => {
           const d = portant[id];
-          const [hx, hy] = cintres[id].crochet;
+          const v = ia[id];
+          const [hx, hy] = v.crochet ?? cintres[id].crochet;
           const attrs = { 'data-hx': hx, 'data-hy': hy, 'data-x': d.x, 'data-y': d.y, 'data-s': d.s, 'data-mx': d.mx, 'data-my': d.my, 'data-ms': d.ms };
           return (
             <Fragment>
-              <div class="hl__cintre" aria-hidden="true" {...attrs} set:html={cintres[id].svg} />
-              <div class="hl__piece" aria-hidden="true" {...attrs} set:html={vetements[id]} />
+              <div class:list={['hl__cintre', { 'hl__cintre--vide': v.crochet }]} aria-hidden="true" {...attrs} set:html={v.crochet ? '' : cintres[id].svg} />
+              <div class="hl__piece" aria-hidden="true" {...attrs}>
+                <img class="hl__ia" src={lien(`/ia/${id}.webp`)} alt="" loading="eager" decoding="async"
+                  style={`left:${v.l}%;top:${v.t}%;width:${v.w}%;--haut:${v.decroche}%`} />
+              </div>
             </Fragment>
           );
         })}
@@ -81,6 +94,7 @@ const ordre = ['veste', 'pochette', 'pantalon', 'escarpins'];
     var cintresEl = Array.prototype.slice.call(sec.querySelectorAll('.hl__cintre'));
     var rail = sec.querySelector('.hl__rayon');
     var decor = sec.querySelector('.hl__deco');
+    var mention = sec.querySelector('.hl__mention');
     var textes = Array.prototype.slice.call(sec.querySelectorAll('.hl__texte'));
     var points = Array.prototype.slice.call(sec.querySelectorAll('.hl__points li'));
     var reperes = Array.prototype.slice.call(sec.querySelectorAll('.hl__repere'));
@@ -126,6 +140,7 @@ const ordre = ['veste', 'pochette', 'pantalon', 'escarpins'];
         g.style.transform = tf(tx0 * r, ty0 * r - arc * 5, balance * r, arc * 22, s);
         g.style.opacity = String(fondu);
         g.style.setProperty('--ombre', (r * 0.6 + arc * 0.6).toFixed(2));
+        g.style.setProperty('--decroche', borne(e * 3).toFixed(3));
         var c = cintresEl[i];
         c.style.transform = tf(tx0, ty0, balance * r, 0, s0);
         c.style.opacity = String(rayon);
@@ -137,6 +152,7 @@ const ordre = ['veste', 'pochette', 'pantalon', 'escarpins'];
       rail.style.top = (etroit ? 3 : 3) + '%';
       rail.style.opacity = String(rayon);
       decor.style.opacity = String(rayon);
+      if (mention) mention.style.opacity = String(1 - borne((p - 0.6) / 0.08));
       var vue = borne((p - 0.5) / 0.14);
       photo.style.opacity = String(vue);
       photo.style.filter = 'grayscale(' + (1 - borne((p - 0.6) / 0.12)).toFixed(2) + ')';
@@ -226,6 +242,9 @@ const ordre = ['veste', 'pochette', 'pantalon', 'escarpins'];
   }
   .hl__piece :global(svg), .hl__cintre :global(svg) { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
   .hl__cintre { position: absolute; inset: 0; pointer-events: none; }
+  .hl__ia { position: absolute; height: auto; display: block; user-select: none;
+    clip-path: inset(calc(var(--haut, 0%) * var(--decroche, 0)) -20% -20% -20%); }
+  .hl__mention { position: absolute; right: 0; bottom: -2.2rem; margin: 0; font: 500 0.62rem/1 var(--titre); letter-spacing: 0.16em; text-transform: uppercase; color: #6b6460; z-index: 5; white-space: nowrap; }
   /* Le décor de la boutique, derrière le portant */
   .hl__deco {
     position: absolute; inset: -0.5rem -2rem 0; overflow: hidden;
@@ -270,7 +289,7 @@ const ordre = ['veste', 'pochette', 'pantalon', 'escarpins'];
   .hl--fixe .hl__plateau { height: 75svh; }
   .hl--fixe .hl__texte { position: relative; display: none; }
   .hl--fixe .hl__texte[data-pas="2"] { display: block; opacity: 1; transform: none; }
-  .hl--fixe .hl__defiler, .hl--fixe .hl__points, .hl--fixe .hl__passer, .hl--fixe .hl__piece { display: none; }
+  .hl--fixe .hl__defiler, .hl--fixe .hl__points, .hl--fixe .hl__passer, .hl--fixe .hl__piece, .hl--fixe .hl__mention { display: none; }
   .hl--fixe .hl__photo, .hl--fixe .hl__repere, .hl--fixe .hl__encart { opacity: 1 !important; filter: none !important; }
 
   @media (max-width: 1100px) {
