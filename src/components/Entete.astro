@@ -29,14 +29,15 @@ const liens = [
     backdrop-filter: blur(8px);
     border-bottom: 1px solid color-mix(in srgb, var(--encre) 10%, transparent);
   }
-  .entete__barre { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; height: 68px; }
+  .entete__barre { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; height: 76px; }
   .entete__logo { text-decoration: none; }
   .entete__menu { display: flex; gap: 2rem; list-style: none; margin: 0; padding: 0; }
   .entete__menu a, .entete__tel {
     font-size: 0.78rem; letter-spacing: 0.18em; text-transform: uppercase; text-decoration: none;
   }
   .entete__menu a:hover { color: var(--fuchsia); }
-  .entete__tel { font-weight: 500; }
+  .entete__tel { font-weight: 500; padding: 0.55em 1.1em; border-radius: 999px; background: var(--fuchsia); color: #fff; }
+  .entete__tel:hover { background: var(--bordeaux); }
   @media (max-width: 860px) {
     .entete__barre { flex-wrap: wrap; height: auto; padding-block: 0.7rem; row-gap: 0.4rem; }
     nav { order: 3; width: 100%; overflow-x: auto; scrollbar-width: none; }

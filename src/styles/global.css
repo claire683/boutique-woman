@@ -8,8 +8,10 @@
   --rose: #f6dfdf;
   --rose-pale: #fbf0ee;
   --creme: #fcf8f4;
-  --bordeaux: #6b1526;
+  --bordeaux: #5e0f22;
   --fuchsia: #c8137a;
+  --fuchsia-vif: #ff4fa3;
+  --rose-vif: #f7a8c4;
   --encre: #1c1718;
   --gris: #6e6466;
   --serif: 'Bodoni Moda', 'Didot', Georgia, serif;
@@ -21,9 +23,9 @@
 *::before,
 *::after { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+html { scroll-behavior: smooth; scroll-padding-top: 90px; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
-@media (max-width: 860px) { html { scroll-padding-top: 120px; } }
+@media (max-width: 860px) { html { scroll-padding-top: 130px; } }
 
 body {
   margin: 0;
@@ -51,13 +53,17 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 400; line-height: 1.05; mar
   color: var(--bordeaux);
 }
 
+h1, h2, h3 { text-wrap: balance; }
+.kicker--clair { color: var(--rose-vif); }
+
 .citation { font-family: var(--serif); font-style: italic; color: var(--fuchsia); }
 
 .btn {
   display: inline-flex;
   align-items: center;
   gap: 0.6em;
-  padding: 0.95em 1.6em;
+  padding: 1em 1.7em;
+  border-radius: 999px;
   font-family: var(--sans);
   font-size: 0.82rem;
   font-weight: 500;
@@ -72,6 +78,14 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 400; line-height: 1.05; mar
 .btn:hover { background: var(--bordeaux); border-color: var(--bordeaux); }
 .btn--clair { background: transparent; color: var(--encre); }
 .btn--clair:hover { background: var(--encre); color: var(--creme); border-color: var(--encre); }
+.btn--fuchsia { background: var(--fuchsia); border-color: var(--fuchsia); color: #fff; }
+.btn--fuchsia:hover { background: var(--fuchsia-vif); border-color: var(--fuchsia-vif); }
+.btn--contour { background: transparent; border-color: currentColor; color: inherit; }
+.btn--contour:hover { background: var(--creme); color: var(--bordeaux); border-color: var(--creme); }
+.btn--bordeaux { background: var(--bordeaux); border-color: var(--bordeaux); color: #fff; }
+.btn--bordeaux:hover { background: var(--encre); border-color: var(--encre); }
+.btn--sombre { background: var(--encre); border-color: var(--encre); color: var(--creme); }
+.btn:active { transform: scale(0.97); }
 
 :focus-visible { outline: 2px solid var(--fuchsia); outline-offset: 3px; }
 
