@@ -5,9 +5,9 @@ import { lien, boutique, look } from '../data/site';
 const decoupes = look.pieces.filter((p) => p.contour);
 // Position de départ de chaque pièce (en % du cadre) et inclinaison 3D
 const departs: Record<string, { dx: number; dy: number; rz: number; ry: number; rx: number; s: number }> = {
-  veste: { dx: -118, dy: -2, rz: -8, ry: 22, rx: 6, s: 1.3 },
-  pochette: { dx: -96, dy: 30, rz: 12, ry: -24, rx: -8, s: 1.4 },
-  pantalon: { dx: -42, dy: -12, rz: 5, ry: 16, rx: 4, s: 1.08 },
+  veste: { dx: -95, dy: 4, rz: -8, ry: 22, rx: 6, s: 1.3 },
+  pochette: { dx: -40, dy: 36, rz: 12, ry: -24, rx: -8, s: 1.4 },
+  pantalon: { dx: 52, dy: -14, rz: 6, ry: -18, rx: 4, s: 1.08 },
 };
 ---
 <section class="hl" id="ouverture" aria-label="Woman, boutique Liu Jo à Belfort : le look du moment">
@@ -190,7 +190,7 @@ const departs: Record<string, { dx: number; dy: number; rz: number; ry: number; 
   /* Le plateau occupe toute la largeur restante : les pièces y flottent, les encarts s'y posent */
   .hl__plateau { position: relative; height: 100%; }
   .hl__cadre {
-    position: absolute; right: 0; top: 50%; translate: 0 -50%;
+    position: absolute; left: 50%; top: 50%; translate: -50% -50%;
     height: min(100%, 880px); aspect-ratio: 2 / 3;
   }
   .hl__photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; }
@@ -209,7 +209,7 @@ const departs: Record<string, { dx: number; dy: number; rz: number; ry: number; 
   .hl__encart { position: absolute; margin: 0; aspect-ratio: 2 / 3; background: #fff; padding: 6px; box-shadow: 0 14px 30px rgb(0 0 0 / 0.22); opacity: 0; z-index: 2; }
   .hl__encart img { width: 100%; height: 100%; object-fit: cover; }
   .hl__encart--gros { right: calc(100% + 1.2rem); top: 4%; width: 52%; }
-  .hl__encart--detail { right: calc(100% + 1.2rem + 30%); bottom: 4%; width: 36%; }
+  .hl__encart--detail { left: calc(100% + 1.2rem); bottom: 6%; width: 44%; }
 
   .hl__points { position: absolute; right: clamp(0.5rem, 1.5vw, 1.2rem); top: 50%; translate: 0 -50%; list-style: none; margin: 0; padding: 0; display: grid; gap: 0.8rem; }
   .hl__points li { width: 9px; height: 9px; border-radius: 50%; border: 1.5px solid var(--encre); transition: background 0.3s; }
@@ -233,8 +233,7 @@ const departs: Record<string, { dx: number; dy: number; rz: number; ry: number; 
   .hl--fixe .hl__photo, .hl--fixe .hl__repere, .hl--fixe .hl__encart { opacity: 1 !important; filter: none !important; }
 
   @media (max-width: 1100px) {
-    .hl__encart--detail { display: none; }
-    .hl__encart--gros { width: 44%; }
+    .hl__encart--gros, .hl__encart--detail { width: 40%; }
   }
   @media (max-width: 860px) {
     .hl { height: 300vh; }
