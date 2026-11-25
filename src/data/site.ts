@@ -58,6 +58,15 @@ export const bonjourWoman = [
   { src: img('2026/11/WhatsApp-Image-2026-11-02-at-14.43.05.jpeg'), alt: 'Photo en noir et blanc, jambes et escarpins sur une voiture ancienne' },
 ];
 
+// Photos supplémentaires pour la mise en page magazine
+export const magazine = {
+  pleinePage: { src: img('2026/11/WhatsApp-Image-2026-11-02-at-14.43.04-2.jpeg'), alt: 'Portrait en noir et blanc à côté d’une voiture ancienne' },
+  kiosque: { src: img('2026/11/kiosque_WOMAN_couvertures1.png'), alt: 'Les couvertures du kiosque Woman en vitrine' },
+  vitrine: { src: img('2015/01/woman-14.jpg'), alt: 'La vitrine de la boutique Woman, Faubourg des Ancêtres' },
+  emma: { src: img('2026/10/Emma-1.png'), alt: 'Emma en tenue Liu Jo dans la rue' },
+  duo: { src: img('2026/10/DSC_2301-scaled.png'), alt: 'Cliente en veste Liu Jo devant une porte ancienne' },
+};
+
 export const collections = [
   { nom: 'Prêt-à-porter', photo: img('2026/11/tenue-grise-1.png'), alt: 'Tenue grise Liu Jo portée en ville' },
   { nom: 'Jeans', photo: img('2026/11/jeanfourrure2.png'), alt: 'Jean et pull jacquard Liu Jo' },
