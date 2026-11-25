@@ -1,8 +1,7 @@
 # Site de dev : à chaque envoi sur main, récupère les photos, compile et publie sur GitHub Pages.
 name: Site de dev
+# Lancement manuel uniquement (GitHub Pages demande un compte payant sur un dépôt privé)
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 permissions:
   contents: read
@@ -28,9 +27,6 @@ jobs:
           BASE: /${{ github.event.repository.name }}
           PUBLIC_IMAGES_LOCALES: 'true'
           PUBLIC_DEV: 'true'
-      - name: Robots du site de dev
-        run: |
-          printf 'User-agent: *\nDisallow: /\n' > dist/robots.txt
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

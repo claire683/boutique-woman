@@ -1,0 +1,9 @@
+# Site de dev sur Netlify (ou réglages équivalents sur Cloudflare Pages)
+[build]
+  command = "npm run images && npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+  PUBLIC_IMAGES_LOCALES = "true"
+  PUBLIC_DEV = "true"
