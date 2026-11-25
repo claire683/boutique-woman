@@ -1,7 +1,8 @@
 # Site de dev : à chaque envoi sur main, récupère les photos, compile et publie sur GitHub Pages.
 name: Site de dev
-# Lancement manuel uniquement (GitHub Pages demande un compte payant sur un dépôt privé)
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
 permissions:
   contents: read
