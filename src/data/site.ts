@@ -85,6 +85,25 @@ export const look = {
   ],
 };
 
+// Le défilé de la saison : séance « Bonjour Woman » (fond retiré automatiquement à la publication)
+const seance = (n: string) => img(`2026/10/WhatsApp-Image-2026-09-28-at-06.21.${n}.jpeg`);
+/** Version détourée (fond transparent) d'une photo, générée à la publication */
+export const detoure = (chemin: string) => (IMAGES_LOCALES ? chemin.replace(/\.webp$/, '.detoure.webp') : chemin);
+export const defile = [
+  { nom: 'Le tailleur pied-de-poule', silhouette: seance('51-6'),
+    pieces: [{ nom: 'Cabas logo', photo: seance('51-7') }, { nom: 'Besace en daim', photo: seance('51-1') }, { nom: 'Bottines en daim', photo: seance('51-8') }] },
+  { nom: 'La petite robe noire', silhouette: seance('53-5'),
+    pieces: [{ nom: 'Sac pailleté', photo: seance('53-6') }, { nom: 'Escarpins pailletés', photo: seance('53-7') }] },
+  { nom: 'Le pull rouge', silhouette: seance('53-2'),
+    pieces: [{ nom: 'Bottines rouges', photo: seance('53-4') }, { nom: 'Sac porté épaule', photo: seance('53-3') }] },
+  { nom: 'Le bleu nuit', silhouette: seance('54-3'),
+    pieces: [{ nom: 'Sac matelassé marine', photo: seance('54-2') }, { nom: 'Escarpins en daim bleu', photo: seance('54-1') }] },
+  { nom: 'Le blanc d\u2019hiver', silhouette: seance('52'),
+    pieces: [{ nom: 'Sac en fourrure', photo: seance('52-5') }, { nom: 'Escarpins nude', photo: seance('53-1') }] },
+  { nom: 'Fleurs et fourrure', silhouette: seance('50-1'),
+    pieces: [{ nom: 'Pochette en fourrure', photo: seance('50-3') }, { nom: 'Bottines western', photo: seance('52-1') }] },
+];
+
 export const collections = [
   { nom: 'Prêt-à-porter', photo: img('2026/11/tenue-grise-1.png'), alt: 'Tenue grise Liu Jo portée en ville' },
   { nom: 'Jeans', photo: img('2026/11/jeanfourrure2.png'), alt: 'Jean et pull jacquard Liu Jo' },

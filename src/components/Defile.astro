@@ -1,0 +1,182 @@
+---
+// « Le défilé de la saison » : les femmes de la séance Bonjour Woman défilent en file,
+// la première nette au premier plan, les suivantes en retrait. Fond retiré à la publication.
+import { defile, detoure, lien } from '../data/site';
+const total = defile.length;
+const deux = (n: number) => String(n).padStart(2, '0');
+---
+<section id="defile" class="df" aria-roledescription="carrousel" aria-label="Le défilé de la saison">
+  <div class="df__tete">
+    <p class="df__sur">Automne-hiver</p>
+    <h2 class="df__titre">Le défilé<br />de la saison</h2>
+  </div>
+
+  <div class="df__corps">
+    <div class="df__scene" tabindex="0" aria-label="Silhouettes : flèches gauche et droite pour faire défiler">
+      <div class="df__sol" aria-hidden="true"></div>
+      <span class="df__numero" aria-hidden="true">01</span>
+      {defile.map((l, i) => (
+        <button class="df__fille" type="button" data-i={i} aria-label={`Voir le look ${i + 1} : ${l.nom}`}>
+          <img src={detoure(l.silhouette)} alt={`Une cliente de Belfort porte le look « ${l.nom} »`} loading={i < 3 ? 'eager' : 'lazy'} draggable="false" />
+        </button>
+      ))}
+    </div>
+
+    <div class="df__panneau">
+      {defile.map((l, i) => (
+        <article class="df__look" data-i={i} aria-hidden={i === 0 ? 'false' : 'true'}>
+          <p class="df__compte"><b>{deux(i + 1)}</b> / {deux(total)}</p>
+          <h3 class="df__nom">{l.nom}</h3>
+          <ul class="df__pieces">
+            {l.pieces.map((p) => (
+              <li>
+                <img src={p.photo} alt={p.nom} loading="lazy" width="160" height="200" />
+                <span>{p.nom}</span>
+              </li>
+            ))}
+          </ul>
+          <a class="df__cta" href={lien('/#essayage')} data-look={l.nom} data-pieces={l.pieces.map((p) => p.nom).join(', ')}>Essayer ce look</a>
+        </article>
+      ))}
+      <div class="df__nav">
+        <button type="button" class="df__fleche" data-sens="-1" aria-label="Look précédent">←</button>
+        <div class="df__barre" aria-hidden="true"><span></span></div>
+        <button type="button" class="df__fleche" data-sens="1" aria-label="Look suivant">→</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  (function () {
+    var sec = document.getElementById('defile');
+    if (!sec) return;
+    var filles = sec.querySelectorAll('.df__fille');
+    var looks = sec.querySelectorAll('.df__look');
+    var num = sec.querySelector('.df__numero');
+    var barre = sec.querySelector('.df__barre span');
+    var n = filles.length, actif = 0;
+
+    function placer() {
+      var tel = window.matchMedia('(max-width: 760px)').matches;
+      filles.forEach(function (f, i) {
+        var k = (i - actif + n) % n;
+        var st = f.style;
+        if (k === n - 1) {
+          // celle qui vient de passer : elle sort côté public
+          st.transform = 'translate3d(-' + (tel ? 70 : 55) + '%,0,0) scale(1.06)';
+          st.opacity = '0'; st.filter = 'none'; st.zIndex = '20';
+        } else if (k <= 3) {
+          var pas = tel ? 26 : 30;
+          st.transform = 'translate3d(' + (k * pas) + '%,' + (-k * 2.5) + '%,0) scale(' + (1 - k * 0.17) + ')';
+          st.opacity = String(k === 0 ? 1 : 0.9 - k * 0.18);
+          st.filter = k === 0 ? 'none' : 'blur(' + (k * 1.6) + 'px) grayscale(' + (0.25 + k * 0.2) + ')';
+          st.zIndex = String(10 - k);
+        } else {
+          st.transform = 'translate3d(' + (4 * 30) + '%,-10%,0) scale(0.4)';
+          st.opacity = '0'; st.filter = 'blur(6px)'; st.zIndex = '0';
+        }
+        f.tabIndex = k === 0 ? 0 : -1;
+        f.setAttribute('aria-current', k === 0 ? 'true' : 'false');
+      });
+      looks.forEach(function (l, i) {
+        var on = i === actif;
+        l.classList.toggle('actif', on);
+        l.setAttribute('aria-hidden', on ? 'false' : 'true');
+      });
+      num.textContent = String(actif + 1).padStart(2, '0');
+      barre.style.transform = 'scaleX(' + ((actif + 1) / n) + ')';
+    }
+    function aller(i) { actif = (i + n) % n; placer(); }
+
+    sec.querySelectorAll('.df__fleche').forEach(function (b) {
+      b.addEventListener('click', function () { aller(actif + Number(b.dataset.sens)); });
+    });
+    filles.forEach(function (f, i) {
+      f.addEventListener('click', function () { if (i !== actif) aller(i); else aller(actif + 1); });
+    });
+    var scene = sec.querySelector('.df__scene');
+    scene.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight') { e.preventDefault(); aller(actif + 1); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); aller(actif - 1); }
+    });
+    var x0 = null;
+    scene.addEventListener('pointerdown', function (e) { x0 = e.clientX; });
+    scene.addEventListener('pointerup', function (e) {
+      if (x0 === null) return;
+      var dx = e.clientX - x0; x0 = null;
+      if (Math.abs(dx) > 40) aller(actif + (dx < 0 ? 1 : -1));
+    });
+    window.addEventListener('resize', placer);
+    placer();
+
+    // « Essayer ce look » : pré-remplit « Préparer mon essayage »
+    sec.querySelectorAll('.df__cta').forEach(function (a) {
+      a.addEventListener('click', function () {
+        var form = document.querySelector('#essayage form');
+        if (!form) return;
+        var msg = form.querySelector('[name="message"]');
+        if (msg) msg.value = 'Le look « ' + a.dataset.look + ' » du défilé : ' + a.dataset.pieces + '.';
+        form.dispatchEvent(new Event('change', { bubbles: true }));
+      });
+    });
+  })();
+</script>
+
+<style>
+  .df { background: #fff; padding: clamp(3rem, 7vw, 6rem) clamp(1.25rem, 5vw, 5rem); overflow: hidden; }
+  .df__tete { display: flex; justify-content: space-between; align-items: end; gap: 2rem; border-bottom: 1px solid #111; padding-bottom: 1.2rem; }
+  .df__sur { font: 600 0.75rem/1 var(--titre); letter-spacing: 0.24em; text-transform: uppercase; margin: 0; order: 2; }
+  .df__titre { font: 800 clamp(2.4rem, 6.5vw, 5.6rem)/0.9 var(--titre); text-transform: uppercase; letter-spacing: -0.035em; margin: 0; }
+
+  .df__corps { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(16rem, 1fr); gap: clamp(1.5rem, 4vw, 4rem); align-items: stretch; margin-top: 1.5rem; }
+
+  .df__scene { position: relative; height: min(78vh, 46rem); touch-action: pan-y; outline: none; user-select: none; }
+  .df__scene:focus-visible { outline: 2px solid #111; outline-offset: 4px; }
+  .df__sol { position: absolute; left: -10%; right: -10%; bottom: 0; height: 22%;
+    background: linear-gradient(180deg, transparent, #f1eeea 70%); border-bottom: 1px solid #111; }
+  .df__numero { position: absolute; right: 0; top: -0.1em; font: 800 clamp(6rem, 18vw, 15rem)/0.8 var(--titre); color: #f1eeea; letter-spacing: -0.05em; pointer-events: none; }
+  .df__fille {
+    position: absolute; left: 4%; bottom: 3%; height: 94%; width: 46%; padding: 0; border: 0; background: none; cursor: pointer;
+    transform-origin: 50% 100%; transition: transform 0.9s cubic-bezier(.65,.02,.25,1), opacity 0.7s ease, filter 0.7s ease;
+    will-change: transform;
+  }
+  .df__fille img { width: 100%; height: 100%; object-fit: contain; object-position: 50% 100%; pointer-events: none;
+    filter: drop-shadow(0 18px 14px rgba(0,0,0,.14)); }
+  .df__fille[aria-current="true"] { cursor: e-resize; }
+
+  .df__panneau { position: relative; display: flex; flex-direction: column; justify-content: end; min-height: 26rem; }
+  .df__look { position: absolute; inset: 0 0 4.5rem 0; display: flex; flex-direction: column; justify-content: end; gap: 1.1rem;
+    opacity: 0; transform: translateY(14px); transition: opacity .5s ease .25s, transform .5s ease .25s; pointer-events: none; }
+  .df__look.actif { opacity: 1; transform: none; pointer-events: auto; }
+  .df__compte { font: 500 0.8rem/1 var(--titre); letter-spacing: 0.2em; margin: 0; }
+  .df__compte b { font-weight: 800; }
+  .df__nom { font: 800 clamp(1.6rem, 2.6vw, 2.3rem)/1 var(--titre); text-transform: uppercase; letter-spacing: -0.02em; }
+  .df__pieces { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; }
+  .df__pieces li { display: flex; flex-direction: column; gap: 0.45rem; }
+  .df__pieces img { width: 100%; aspect-ratio: 4/5; object-fit: cover; display: block; }
+  .df__pieces span { font: 600 0.68rem/1.25 var(--titre); letter-spacing: 0.1em; text-transform: uppercase; }
+  .df__cta { align-self: start; font: 700 0.78rem/1 var(--titre); letter-spacing: 0.2em; text-transform: uppercase; color: #fff; background: #111;
+    padding: 1.05em 1.8em; text-decoration: none; transition: background .2s; }
+  .df__cta:hover { background: var(--bordeaux); }
+  .df__nav { display: flex; align-items: center; gap: 1rem; height: 3rem; }
+  .df__fleche { width: 3rem; height: 3rem; border: 1px solid #111; background: #fff; font-size: 1.2rem; cursor: pointer; transition: background .2s, color .2s; }
+  .df__fleche:hover { background: #111; color: #fff; }
+  .df__barre { flex: 1; height: 2px; background: #e6e1dc; }
+  .df__barre span { display: block; height: 100%; background: #111; transform-origin: 0 50%; transition: transform .6s ease; }
+
+  @media (max-width: 760px) {
+    .df__tete { flex-direction: column; align-items: start; gap: .6rem; }
+    .df__sur { order: 0; }
+    .df__corps { grid-template-columns: 1fr; }
+    .df__scene { height: 62svh; }
+    .df__fille { width: 58%; left: 2%; }
+    .df__panneau { min-height: 0; }
+    .df__look { position: relative; inset: auto; display: none; }
+    .df__look.actif { display: flex; }
+    .df__nav { margin-top: 1rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .df__fille, .df__look { transition: none; }
+  }
+</style>

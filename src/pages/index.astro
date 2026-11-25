@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Tenue from '../components/Tenue.astro';
 import HeroLook from '../components/HeroLook.astro';
+import Defile from '../components/Defile.astro';
 import { boutique, horaires, hero, bonjourWoman, collections, avis, magazine } from '../data/site';
 // Codes inspirés de liujo.com : blanc, noir, capitales grasses, photos bord à bord
 const [pap, jeans, maro, chaussures, couture, accessoires] = collections;
@@ -48,6 +49,9 @@ const portraits = [magazine.noirEtBlanc, bonjourWoman[2], bonjourWoman[3], bonjo
       ))}
     </ul>
   </section>
+
+  <!-- LE DÉFILÉ DE LA SAISON -->
+  <Defile />
 
   <!-- PRÉPARER MON ESSAYAGE (idée « composer ma tenue ») -->
   <Tenue />

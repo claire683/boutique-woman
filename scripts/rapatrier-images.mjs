@@ -10,6 +10,7 @@ const chemins = new Set();
 for (const f of ['../src/data/site.ts', '../src/pages/index.astro']) {
   const texte = await readFile(new URL(f, import.meta.url), 'utf8');
   for (const m of texte.matchAll(/img\('([^']+)'\)/g)) chemins.add(m[1]);
+  for (const m of texte.matchAll(/seance\('([^']+)'\)/g)) chemins.add(`2026/10/WhatsApp-Image-2026-09-28-at-06.21.${m[1]}.jpeg`);
 }
 
 let avant = 0, apres = 0;

@@ -5,7 +5,7 @@ on:
     branches: [main]
   workflow_dispatch:
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 concurrency:
@@ -22,6 +22,16 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run images
+      - name: Outil de détourage (modèle local, sans service externe)
+        run: npm i --no-save @imgly/background-removal-node --onnxruntime-node-install-cuda=skip
+      - name: Visuels IA Canva (rapatriés une seule fois puis gardés dans le dépôt)
+        run: |
+          npm run ia
+          if [ -n "$(git status --porcelain public/ia)" ]; then
+            git config user.name "github-actions"; git config user.email "github-actions@users.noreply.github.com"
+            git add public/ia && git commit -m "Visuels IA rapatriés depuis Canva [skip ci]" && git push
+          fi
+      - run: npm run detourer
       - run: npm run build
         env:
           SITE: https://${{ github.repository_owner }}.github.io
