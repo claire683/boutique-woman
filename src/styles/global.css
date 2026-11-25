@@ -2,18 +2,20 @@
 @import '@fontsource/bodoni-moda/latin-400-italic.css';
 @import '@fontsource/bodoni-moda/latin-600.css';
 @import '@fontsource-variable/jost';
+@import '@fontsource-variable/red-hat-display';
 
 :root {
   /* Palette tirée de l'Instagram de Natacha : rose du logo, bordeaux de Noël, fuchsia des citations */
   --rose: #f6dfdf;
   --rose-pale: #fbf0ee;
-  --creme: #fcf8f4;
+  --creme: #ffffff;
   --bordeaux: #5e0f22;
   --fuchsia: #c8137a;
   --fuchsia-vif: #ff4fa3;
   --rose-vif: #f7a8c4;
-  --encre: #1c1718;
-  --gris: #6e6466;
+  --encre: #111111;
+  --gris: #5f5a58;
+  --titre: 'Red Hat Display Variable', 'Helvetica Neue', Arial, sans-serif;
   --serif: 'Bodoni Moda', 'Didot', Georgia, serif;
   --sans: 'Jost Variable', 'Jost', system-ui, sans-serif;
   --max: 1240px;
@@ -23,9 +25,9 @@
 *::before,
 *::after { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+html { scroll-behavior: smooth; scroll-padding-top: 110px; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
-@media (max-width: 860px) { html { scroll-padding-top: 130px; } }
+@media (max-width: 860px) { html { scroll-padding-top: 150px; } }
 
 body {
   margin: 0;

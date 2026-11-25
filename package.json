@@ -12,6 +12,7 @@
   "dependencies": {
     "@astrojs/sitemap": "^3.7.6",
     "@fontsource-variable/jost": "^5.3.0",
+    "@fontsource-variable/red-hat-display": "^5.3.0",
     "@fontsource/bodoni-moda": "^5.3.0",
     "astro": "^5.18.2"
   }

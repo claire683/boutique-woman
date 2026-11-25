@@ -2,46 +2,51 @@
 import Logo from './Logo.astro';
 import { lien, boutique } from '../data/site';
 const liens = [
-  { href: lien('/#bonjour'), texte: 'Bonjour Woman' },
-  { href: lien('/#vestiaire'), texte: 'Le vestiaire' },
+  { href: lien('/#vestiaire'), texte: 'Collections' },
+  { href: lien('/#bonjour'), texte: 'Elles portent Woman' },
   { href: lien('/#histoire'), texte: 'La boutique' },
-  { href: lien('/#venir'), texte: 'Venir' },
 ];
 ---
+<div class="annonce">Nouveautés toutes les semaines · <a href={lien('/#venir')}>36 Faubourg des Ancêtres, Belfort</a></div>
 <header class="entete">
-  <div class="wrap entete__barre">
-    <a href={lien('/')} class="entete__logo" aria-label="Woman, retour à l'accueil"><Logo /></a>
-    <nav aria-label="Navigation principale">
-      <ul class="entete__menu">
-        {liens.map((l) => <li><a href={l.href}>{l.texte}</a></li>)}
-      </ul>
-    </nav>
+  <nav aria-label="Navigation principale">
+    <ul class="entete__menu">
+      {liens.map((l) => <li><a href={l.href}>{l.texte}</a></li>)}
+    </ul>
+  </nav>
+  <a href={lien('/')} class="entete__logo"><Logo /></a>
+  <div class="entete__droite">
+    <a href={lien('/#venir')}>Venir en boutique</a>
     <a class="entete__tel" href={boutique.telephoneLien}>{boutique.telephone}</a>
   </div>
 </header>
 
 <style>
+  .annonce {
+    background: var(--encre); color: #fff; text-align: center; padding: 0.45rem 1rem;
+    font-family: var(--titre); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  }
+  .annonce a { text-decoration: underline; text-underline-offset: 2px; }
   .entete {
-    position: sticky;
-    top: 0;
-    z-index: 20;
-    background: color-mix(in srgb, var(--creme) 92%, transparent);
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid color-mix(in srgb, var(--encre) 10%, transparent);
+    position: sticky; top: 0; z-index: 20; background: #fff; border-bottom: 1px solid #ece7e5;
+    display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 1rem;
+    padding: 0.7rem clamp(1rem, 2.5vw, 2rem);
   }
-  .entete__barre { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; height: 76px; }
   .entete__logo { text-decoration: none; }
-  .entete__menu { display: flex; gap: 2rem; list-style: none; margin: 0; padding: 0; }
-  .entete__menu a, .entete__tel {
-    font-size: 0.78rem; letter-spacing: 0.18em; text-transform: uppercase; text-decoration: none;
+  .entete__menu { display: flex; gap: 1.6rem; list-style: none; margin: 0; padding: 0; }
+  .entete a { text-decoration: none; }
+  .entete__menu a, .entete__droite a {
+    font-family: var(--titre); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
   }
-  .entete__menu a:hover { color: var(--fuchsia); }
-  .entete__tel { font-weight: 500; padding: 0.55em 1.1em; border-radius: 999px; background: var(--fuchsia); color: #fff; }
-  .entete__tel:hover { background: var(--bordeaux); }
-  @media (max-width: 860px) {
-    .entete__barre { flex-wrap: wrap; height: auto; padding-block: 0.7rem; row-gap: 0.4rem; }
-    nav { order: 3; width: 100%; overflow-x: auto; scrollbar-width: none; }
-    nav::-webkit-scrollbar { display: none; }
-    .entete__menu { gap: 1.4rem; white-space: nowrap; padding-bottom: 0.2rem; }
+  .entete__menu a:hover, .entete__droite a:hover { text-decoration: underline; text-underline-offset: 4px; }
+  .entete__droite { display: flex; justify-content: flex-end; align-items: center; gap: 1.4rem; }
+  .entete__tel { border: 1px solid var(--encre); padding: 0.45rem 0.9rem; }
+  .entete__tel:hover { background: var(--encre); color: #fff; text-decoration: none !important; }
+  @media (max-width: 960px) {
+    .entete { grid-template-columns: auto 1fr; }
+    .entete nav { grid-column: 1 / -1; order: 3; overflow-x: auto; scrollbar-width: none; }
+    .entete nav::-webkit-scrollbar { display: none; }
+    .entete__menu { white-space: nowrap; gap: 1.2rem; }
+    .entete__droite a:not(.entete__tel) { display: none; }
   }
 </style>
