@@ -70,16 +70,22 @@ export const magazine = {
 
 // Le look de l'ouverture : une tenue réellement portée, et ses pièces
 export const look = {
+  // Photo locale (WebP) quand IMAGES_LOCALES, sinon l'originale
   photo: { src: img('2026/10/DSC_2303-scaled.png'), alt: 'Une femme de Belfort porte une veste courte marine, un pantalon flare, une pochette blanche et des escarpins bleus devant une porte en bois' },
   gros: { src: img('2026/10/DSC_2305-scaled.png'), alt: 'Gros plan sur la veste à surpiqûres et la pochette blanche' },
   detail: { src: img('2026/10/DSC_2301-scaled.png'), alt: 'Détail des escarpins bleus en daim' },
   // Positions en % de la photo (x de gauche à droite, y de haut en bas)
+  // Positions en % de la photo (x de gauche à droite, y de haut en bas).
+  // « contour » : la pièce découpée dans la photo (polygone en %), pour l'animation.
   pieces: [
-    { id: 'veste', nom: 'Veste courte à surpiqûres', x: 66, y: 29 },
-    { id: 'top', nom: 'Top blanc', x: 58, y: 38 },
-    { id: 'pochette', nom: 'Pochette blanche', x: 63, y: 52 },
-    { id: 'pantalon', nom: 'Pantalon flare marine', x: 70, y: 74 },
-    { id: 'escarpins', nom: 'Escarpins en daim', x: 59, y: 95 },
+    { id: 'veste', nom: 'Veste courte à surpiqûres', x: 68, y: 29,
+      contour: '64.8% 17.6%, 68.5% 17%, 75% 18.5%, 78.5% 22.5%, 79.3% 32%, 79.2% 43.4%, 74% 43.8%, 63% 46.4%, 57% 43%, 52.5% 40.8%, 53.5% 35%, 54.3% 32%, 58% 26%, 62.5% 21%' },
+    { id: 'top', nom: 'Top blanc', x: 59, y: 34 },
+    { id: 'pochette', nom: 'Pochette blanche', x: 63, y: 51,
+      contour: '50.3% 49.5%, 62% 46.5%, 73.8% 43.6%, 77% 45.5%, 77% 52.5%, 64% 55.8%, 53.4% 58.6%, 49.4% 54%' },
+    { id: 'pantalon', nom: 'Pantalon flare marine', x: 71, y: 74,
+      contour: '53.5% 58.8%, 64% 56%, 77.2% 52.8%, 78.2% 56%, 78% 64%, 78.4% 91%, 79.6% 97.6%, 59.4% 97.8%, 63.4% 91%, 62.6% 71%, 60.5% 65%, 57% 61%, 56% 68%, 57.2% 79.6%, 44.4% 81.2%, 45% 77%, 46.2% 69.5%, 46.5% 61%, 49% 58.5%' },
+    { id: 'escarpins', nom: 'Escarpins en daim', x: 64, y: 96 },
   ],
 };
 

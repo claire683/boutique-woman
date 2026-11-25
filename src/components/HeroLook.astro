@@ -1,8 +1,14 @@
 ---
-// Ouverture « Le look » : les pièces flottent, viennent se poser sur la cliente,
-// puis la vraie photo apparaît avec chaque pièce repérée.
+// Ouverture « Le look » : les vraies pièces, découpées dans la photo, flottent en volume,
+// reviennent se poser exactement à leur place, puis la photo apparaît avec chaque pièce repérée.
 import { lien, boutique, look } from '../data/site';
-const p = (id: string) => look.pieces.find((x) => x.id === id)!;
+const decoupes = look.pieces.filter((p) => p.contour);
+// Position de départ de chaque pièce (en % du cadre) et inclinaison 3D
+const departs: Record<string, { dx: number; dy: number; rz: number; ry: number; rx: number; s: number }> = {
+  veste: { dx: -108, dy: -6, rz: -9, ry: 24, rx: 6, s: 1.08 },
+  pochette: { dx: -92, dy: 34, rz: 13, ry: -26, rx: -8, s: 1.14 },
+  pantalon: { dx: -50, dy: -14, rz: 6, ry: 16, rx: 4, s: 1 },
+};
 ---
 <section class="hl" id="ouverture" aria-label="Woman, boutique Liu Jo à Belfort : le look du moment">
   <div class="hl__scene">
@@ -28,47 +34,29 @@ const p = (id: string) => look.pieces.find((x) => x.id === id)!;
       </div>
     </div>
 
-    <div class="hl__cadre">
-      <img class="hl__photo" src={look.photo.src} alt={look.photo.alt} width="1707" height="2560" fetchpriority="high" />
-      <figure class="hl__encart hl__encart--gros"><img src={look.gros.src} alt={look.gros.alt} loading="lazy" width="600" height="900" /></figure>
-      <figure class="hl__encart hl__encart--detail"><img src={look.detail.src} alt={look.detail.alt} loading="lazy" width="600" height="900" /></figure>
+    <div class="hl__plateau">
+      <div class="hl__cadre" style={`--photo:url('${look.photo.src}')`}>
+        <img class="hl__photo" src={look.photo.src} alt={look.photo.alt} width="1707" height="2560" fetchpriority="high" />
+        <figure class="hl__encart hl__encart--gros"><img src={look.gros.src} alt={look.gros.alt} loading="lazy" width="600" height="900" /></figure>
+        <figure class="hl__encart hl__encart--detail"><img src={look.detail.src} alt={look.detail.alt} loading="lazy" width="600" height="900" /></figure>
 
-      <!-- Les pièces illustrées (coordonnées : la photo fait 100 × 150) -->
-      <svg class="hl__pieces" viewBox="0 0 100 150" aria-hidden="true">
-        <g class="hl__piece" data-sx="30" data-sy="34" data-sr="-12" data-ss="1.7" data-ex={p('veste').x} data-ey={p('veste').y * 1.5}>
-          <path d="M-13 -15 L-20 -6 L-21 14 L-16 15 L-15 -2 Z M13 -15 L20 -6 L21 14 L16 15 L15 -2 Z" fill="#17213a" />
-          <path d="M-13 -15 L-4 -17 L0 -8 L4 -17 L13 -15 L15 13 L-15 13 Z" fill="#1f2a45" />
-          <path d="M-4 -17 L0 -8 L4 -17 M-12 12 L12 12 M-21 12 L-16 13 M21 12 L16 13 M-13 -14 L-14.5 12 M13 -14 L14.5 12" fill="none" stroke="#ece7de" stroke-width="0.45" stroke-dasharray="1 0.7" />
-          <circle cx="-1.6" cy="-4" r="0.9" fill="#caa34c" /><circle cx="-1.6" cy="2" r="0.9" fill="#caa34c" /><circle cx="-1.6" cy="8" r="0.9" fill="#caa34c" />
-        </g>
-        <g class="hl__piece" data-sx="76" data-sy="22" data-sr="9" data-ss="1.8" data-ex={p('top').x} data-ey={p('top').y * 1.5}>
-          <path d="M-4 -8 L4 -8 L6 8 L-6 8 Z" fill="#f5f2ec" stroke="#ddd6ca" stroke-width="0.3" />
-          <circle cx="0" cy="0" r="2.6" fill="none" stroke="#caa34c" stroke-width="0.5" />
-        </g>
-        <g class="hl__piece" data-sx="74" data-sy="72" data-sr="-14" data-ss="1.6" data-ex={p('pochette').x} data-ey={p('pochette').y * 1.5}>
-          <rect x="-10" y="-6" width="20" height="12" rx="1.6" fill="#f3f0ea" stroke="#d8d1c5" stroke-width="0.4" />
-          <path d="M-10 -1.5 L10 -1.5" stroke="#d8d1c5" stroke-width="0.4" />
-          <rect x="7" y="-3" width="2.6" height="3" rx="0.4" fill="#caa34c" />
-        </g>
-        <g class="hl__piece" data-sx="28" data-sy="104" data-sr="7" data-ss="1.25" data-ex={p('pantalon').x} data-ey={p('pantalon').y * 1.5}>
-          <path d="M-9 -31 L9 -31 L10 -5 L16 31 L3 31 L0 -10 L-3 31 L-16 31 L-10 -5 Z" fill="#1b2540" />
-          <path d="M-9 -31 L9 -31 L9 -28 L-9 -28 Z" fill="#141c32" />
-          <path d="M-6 -27 L-9.5 30 M6 -27 L9.5 30" fill="none" stroke="#ece7de" stroke-width="0.4" stroke-dasharray="1 0.7" />
-        </g>
-        <g class="hl__piece" data-sx="72" data-sy="128" data-sr="-6" data-ss="1.8" data-ex={p('escarpins').x} data-ey={p('escarpins').y * 1.5}>
-          <path d="M-13 3 Q-13 -2 -8 -2 L-3 1.5 L-2 4 L-13 4 Z M-13 4 L-12 8 L-11 4 Z" fill="#2d4f8f" />
-          <path d="M1 3 Q1 -2 6 -2 L11 1.5 L12 4 L1 4 Z M1 4 L2 8 L3 4 Z" fill="#33589c" />
-        </g>
-      </svg>
+        {decoupes.map((piece) => {
+          const d = departs[piece.id];
+          return (
+            <div class="hl__piece" aria-hidden="true" data-dx={d.dx} data-dy={d.dy} data-rz={d.rz} data-ry={d.ry} data-rx={d.rx} data-s={d.s}>
+              <div class="hl__decoupe" style={`clip-path:polygon(${piece.contour})`}></div>
+            </div>
+          );
+        })}
 
-      <!-- Repères sur la vraie photo -->
-      <ul class="hl__reperes">
-        {look.pieces.map((piece, i) => (
-          <li class="hl__repere" style={`left:${piece.x}%;top:${piece.y}%`} data-i={i}>
-            <span class="hl__point"></span><span class="hl__nom">{piece.nom}</span>
-          </li>
-        ))}
-      </ul>
+        <ul class="hl__reperes">
+          {look.pieces.map((piece) => (
+            <li class="hl__repere" style={`left:${piece.x}%;top:${piece.y}%`}>
+              <span class="hl__point"></span><span class="hl__nom">{piece.nom}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
 
     <ol class="hl__points" aria-hidden="true"><li></li><li></li><li></li></ol>
@@ -91,9 +79,12 @@ const p = (id: string) => look.pieces.find((x) => x.id === id)!;
     var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var lisse = function (t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; };
     var borne = function (v) { return Math.max(0, Math.min(1, v)); };
-    var visible = true, dernier = -1;
+    var visible = true, dernier = -1, etroit = false;
 
-    function mesurer() { if (entete) document.documentElement.style.setProperty('--entete', entete.offsetHeight + 'px'); }
+    function mesurer() {
+      if (entete) document.documentElement.style.setProperty('--entete', entete.offsetHeight + 'px');
+      etroit = window.innerWidth < 860;
+    }
     mesurer();
     window.addEventListener('resize', mesurer);
 
@@ -106,26 +97,27 @@ const p = (id: string) => look.pieces.find((x) => x.id === id)!;
 
     function rendre(temps) {
       var p = progression();
-      var fondu = 1 - borne((p - 0.5) / 0.12);
+      var kx = etroit ? 0.42 : 1, ky = etroit ? 0.5 : 1;
+      var fondu = 1 - borne((p - 0.64) / 0.08);
       pieces.forEach(function (g, i) {
         var d = g.dataset;
-        var e = lisse(borne((p - 0.12 - i * 0.05) / 0.3));
-        var flotte = reduit ? 0 : (1 - e) * Math.sin(temps / 900 + i * 1.7) * 1.6;
-        var x = +d.sx + (+d.ex - +d.sx) * e;
-        var y = +d.sy + (+d.ey - +d.sy) * e + flotte;
-        var rot = +d.sr * (1 - e) + (reduit ? 0 : (1 - e) * Math.sin(temps / 1300 + i) * 3);
-        var s = +d.ss + (1 - +d.ss) * e;
-        g.setAttribute('transform', 'translate(' + x.toFixed(2) + ' ' + y.toFixed(2) + ') rotate(' + rot.toFixed(2) + ') scale(' + s.toFixed(3) + ')');
+        var e = lisse(borne((p - 0.14 - i * 0.07) / 0.32));
+        var r = 1 - e;
+        var flotte = reduit ? 0 : r * Math.sin(temps / 950 + i * 1.9);
+        var tx = +d.dx * kx * r, ty = +d.dy * ky * r + flotte * 1.4;
+        var rz = +d.rz * r + flotte * 2, ry = +d.ry * r + flotte * 5, rx = +d.rx * r;
+        var s = 1 + (+d.s - 1) * r;
+        g.style.transform = 'translate3d(' + tx.toFixed(2) + '%,' + ty.toFixed(2) + '%,0) rotateZ(' + rz.toFixed(2) + 'deg) rotateY(' + ry.toFixed(2) + 'deg) rotateX(' + rx.toFixed(2) + 'deg) scale(' + s.toFixed(3) + ')';
         g.style.opacity = String(fondu);
+        g.style.setProperty('--ombre', r.toFixed(2));
       });
-      var vue = borne((p - 0.42) / 0.2);
+      var vue = borne((p - 0.5) / 0.14);
       photo.style.opacity = String(vue);
-      photo.style.filter = 'grayscale(' + (1 - borne((p - 0.52) / 0.15)).toFixed(2) + ')';
-      photo.style.transform = 'scale(' + (1.04 - 0.04 * vue).toFixed(3) + ')';
-      reperes.forEach(function (r, i) {
-        var v = borne((p - 0.7 - i * 0.035) / 0.06);
-        r.style.opacity = String(v);
-        r.style.transform = 'translateY(' + ((1 - v) * 8).toFixed(1) + 'px)';
+      photo.style.filter = 'grayscale(' + (1 - borne((p - 0.6) / 0.12)).toFixed(2) + ')';
+      reperes.forEach(function (rep, i) {
+        var v = borne((p - 0.72 - i * 0.035) / 0.06);
+        rep.style.opacity = String(v);
+        rep.style.transform = 'translateY(' + ((1 - v) * 8).toFixed(1) + 'px)';
       });
       encarts.forEach(function (en, i) {
         var v = borne((p - 0.74 - i * 0.05) / 0.1);
@@ -161,8 +153,8 @@ const p = (id: string) => look.pieces.find((x) => x.id === id)!;
         var c = form.querySelector('[name="pieces"][value="' + v + '"]');
         if (c) c.checked = true;
       });
-      var bleu = form.querySelector('[name="couleurs"][value="neutres"]');
-      if (bleu) bleu.checked = true;
+      var couleurs = form.querySelector('[name="couleurs"][value="neutres"]');
+      if (couleurs) couleurs.checked = true;
       var msg = form.querySelector('[name="message"]');
       if (msg && !msg.value) msg.value = 'Le look de la page d’accueil : veste courte marine, top blanc, pantalon flare, pochette blanche, escarpins bleus.';
       form.dispatchEvent(new Event('change', { bubbles: true }));
@@ -171,22 +163,22 @@ const p = (id: string) => look.pieces.find((x) => x.id === id)!;
 </script>
 
 <style>
-  .hl { position: relative; height: 330vh; background: #f5f1ec; }
+  .hl { position: relative; height: 340vh; background: #f4efe9; }
   .hl__scene {
     position: sticky; top: var(--entete, 60px); height: calc(100svh - var(--entete, 60px)); overflow: hidden;
-    display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center;
-    gap: clamp(1.5rem, 5vw, 6rem); padding: 1.5rem clamp(1.25rem, 6vw, 7rem) 3.2rem;
+    display: grid; grid-template-columns: minmax(17rem, 31rem) minmax(0, 1fr); align-items: center;
+    gap: clamp(1rem, 3vw, 3rem); padding: 1.2rem clamp(1.25rem, 5vw, 5rem) 3.2rem;
   }
-  .hl__textes { position: relative; min-height: 22rem; }
+  .hl__textes { position: relative; min-height: 23rem; }
   .hl__texte { position: absolute; inset: 0 0 auto 0; opacity: 0; transform: translateY(18px); transition: opacity 0.5s ease, transform 0.5s ease; pointer-events: none; }
   .hl__texte.actif { opacity: 1; transform: none; pointer-events: auto; }
   .hl__sur { margin: 0 0 1rem; font-family: var(--titre); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fuchsia); }
   .hl__sur span { color: var(--gris); margin-right: 0.8rem; font-weight: 500; }
   .hl h1, .hl__titre {
     margin: 0; font-family: var(--titre); font-weight: 700; text-transform: uppercase; letter-spacing: 0.005em;
-    font-size: clamp(2.2rem, 4.6vw, 4.4rem); line-height: 0.98; color: var(--encre); max-width: 13ch;
+    font-size: clamp(2.2rem, 4.4vw, 4.3rem); line-height: 0.98; color: var(--encre);
   }
-  .hl__chapo { margin: 1.4rem 0 0; max-width: 30rem; font-size: 1.15rem; line-height: 1.55; }
+  .hl__chapo { margin: 1.4rem 0 0; max-width: 28rem; font-size: 1.15rem; line-height: 1.55; }
   .hl__actions { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 1.8rem; }
   .hl__btn {
     display: inline-block; padding: 0.85rem 1.5rem; border: 1px solid var(--encre); color: var(--encre); text-decoration: none;
@@ -195,56 +187,68 @@ const p = (id: string) => look.pieces.find((x) => x.id === id)!;
   .hl__btn:hover, .hl__btn--plein { background: var(--encre); color: #fff; }
   .hl__btn--plein:hover { background: var(--fuchsia); border-color: var(--fuchsia); }
 
+  /* Le plateau occupe toute la largeur restante : les pièces y flottent, les encarts s'y posent */
+  .hl__plateau { position: relative; height: 100%; perspective: 1400px; }
   .hl__cadre {
-    position: relative; height: min(calc(100svh - var(--entete, 60px) - 5rem), 860px); aspect-ratio: 2 / 3;
-    background: #e9e2d9; outline: 1px dashed rgb(0 0 0 / 0.12); outline-offset: -1px;
+    position: absolute; right: 0; top: 50%; translate: 0 -50%;
+    height: min(100%, 880px); aspect-ratio: 2 / 3; background: #e9e1d7;
+    box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.06);
+    transform-style: preserve-3d;
   }
   .hl__photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; }
-  .hl__pieces { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 6px 10px rgb(0 0 0 / 0.18)); }
+  .hl__piece {
+    position: absolute; inset: 0; will-change: transform; transform-style: preserve-3d;
+    filter: drop-shadow(0 calc(10px + 26px * var(--ombre, 0)) calc(12px + 22px * var(--ombre, 0)) rgb(40 20 10 / calc(0.12 + 0.22 * var(--ombre, 0))));
+  }
+  .hl__decoupe { position: absolute; inset: 0; background: var(--photo) center / 100% 100% no-repeat; }
   .hl__reperes { list-style: none; margin: 0; padding: 0; }
-  .hl__repere { position: absolute; opacity: 0; display: flex; flex-direction: row-reverse; align-items: center; gap: 0.5rem; translate: calc(-100% + 7px) -50%; white-space: nowrap; }
+  .hl__repere { position: absolute; opacity: 0; display: flex; flex-direction: row-reverse; align-items: center; gap: 0.5rem; translate: calc(-100% + 7px) -50%; white-space: nowrap; z-index: 3; }
   .hl__point { width: 14px; height: 14px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 4px rgb(255 255 255 / 0.45), 0 2px 8px rgb(0 0 0 / 0.3); flex: none; }
   .hl__nom {
     background: #fff; padding: 0.3rem 0.65rem; font-family: var(--titre); font-size: 0.72rem; font-weight: 700;
     letter-spacing: 0.04em; text-transform: uppercase; box-shadow: 0 2px 10px rgb(0 0 0 / 0.15);
   }
-  .hl__encart { position: absolute; margin: 0; width: 42%; aspect-ratio: 2 / 3; background: #fff; padding: 6px; box-shadow: 0 14px 30px rgb(0 0 0 / 0.25); opacity: 0; }
+  .hl__encart { position: absolute; margin: 0; aspect-ratio: 2 / 3; background: #fff; padding: 6px; box-shadow: 0 14px 30px rgb(0 0 0 / 0.22); opacity: 0; z-index: 2; }
   .hl__encart img { width: 100%; height: 100%; object-fit: cover; }
-  .hl__encart--gros { left: -34%; top: 8%; }
-  .hl__encart--detail { left: -26%; bottom: -4%; width: 34%; }
+  .hl__encart--gros { right: calc(100% + 1.2rem); top: 4%; width: 52%; }
+  .hl__encart--detail { right: calc(100% + 1.2rem + 30%); bottom: 4%; width: 36%; }
 
-  .hl__points { position: absolute; right: clamp(0.8rem, 2vw, 1.6rem); top: 50%; translate: 0 -50%; list-style: none; margin: 0; padding: 0; display: grid; gap: 0.8rem; }
+  .hl__points { position: absolute; right: clamp(0.5rem, 1.5vw, 1.2rem); top: 50%; translate: 0 -50%; list-style: none; margin: 0; padding: 0; display: grid; gap: 0.8rem; }
   .hl__points li { width: 9px; height: 9px; border-radius: 50%; border: 1.5px solid var(--encre); transition: background 0.3s; }
   .hl__points li.actif { background: var(--encre); }
   .hl__defiler {
-    position: absolute; left: 50%; bottom: 1.1rem; translate: -50% 0; margin: 0;
+    position: absolute; left: 50%; bottom: 1rem; translate: -50% 0; margin: 0;
     font-family: var(--titre); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gris); transition: opacity 0.4s;
   }
   .hl--defile .hl__defiler { opacity: 0; }
   .hl__passer {
-    position: absolute; left: clamp(1.25rem, 6vw, 7rem); bottom: 1.1rem; padding: 0.55rem 1rem; background: #fff; border-radius: 999px;
+    position: absolute; left: clamp(1.25rem, 5vw, 5rem); bottom: 1rem; padding: 0.55rem 1rem; background: #fff; border-radius: 999px;
     font-size: 0.85rem; font-weight: 500; text-decoration: none; box-shadow: 0 4px 14px rgb(0 0 0 / 0.08);
   }
 
   .hl--fixe { height: auto; }
-  .hl--fixe .hl__scene { position: relative; top: 0; height: auto; min-height: 80svh; }
+  .hl--fixe .hl__scene { position: relative; top: 0; height: auto; min-height: 85svh; }
+  .hl--fixe .hl__plateau { height: 75svh; }
   .hl--fixe .hl__texte { position: relative; display: none; }
   .hl--fixe .hl__texte[data-pas="2"] { display: block; opacity: 1; transform: none; }
-  .hl--fixe .hl__defiler, .hl--fixe .hl__points, .hl--fixe .hl__passer, .hl--fixe .hl__pieces { display: none; }
-  .hl--fixe .hl__photo, .hl--fixe .hl__repere, .hl--fixe .hl__encart { opacity: 1 !important; }
+  .hl--fixe .hl__defiler, .hl--fixe .hl__points, .hl--fixe .hl__passer, .hl--fixe .hl__piece { display: none; }
+  .hl--fixe .hl__photo, .hl--fixe .hl__repere, .hl--fixe .hl__encart { opacity: 1 !important; filter: none !important; }
 
+  @media (max-width: 1100px) {
+    .hl__encart--detail { display: none; }
+    .hl__encart--gros { width: 44%; }
+  }
   @media (max-width: 860px) {
     .hl { height: 300vh; }
-    .hl__scene { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto 1fr; justify-items: center; align-items: start; padding: 1rem 1.25rem 3.4rem; gap: 0.6rem; }
-    .hl__textes { min-height: 15.2rem; width: 100%; }
+    .hl__scene { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr); align-items: stretch; padding: 1rem 1.25rem 3.4rem; gap: 0.6rem; }
+    .hl__textes { min-height: 13.5rem; }
     .hl__texte[data-pas="2"] .hl__chapo { display: none; }
-    .hl__defiler { display: none; }
-    .hl h1, .hl__titre { font-size: clamp(1.7rem, 7.4vw, 2.4rem); max-width: none; }
+    .hl h1, .hl__titre { font-size: clamp(1.7rem, 7.4vw, 2.4rem); }
     .hl__chapo { font-size: 0.98rem; margin-top: 0.7rem; }
     .hl__actions { margin-top: 0.9rem; }
     .hl__btn { padding: 0.7rem 1.1rem; }
-    .hl__cadre { height: min(calc(100svh - var(--entete, 60px) - 20.5rem), 520px); }
-    .hl__encart, .hl__points { display: none; }
+    .hl__cadre { right: auto; left: 50%; translate: -50% -50%; }
+    .hl__encart, .hl__points, .hl__defiler { display: none; }
     .hl__nom { font-size: 0.62rem; padding: 0.22rem 0.45rem; }
     .hl__point { width: 11px; height: 11px; }
   }
