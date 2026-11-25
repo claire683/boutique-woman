@@ -56,7 +56,7 @@ import { lien, boutique } from '../data/site';
       </g>
 
       <!-- Manteau long -->
-      <g class="hp__vet" data-ex="235" data-ey="118" data-sx="200" data-sy="150" data-sr="-9" data-ss="0.9">
+      <g class="hp__vet" data-ex="235" data-ey="118" data-sx="170" data-sy="70" data-sr="-12" data-ss="0.9">
         <use href="#hp-cintre" />
         <path d="M-50 30 L-72 66 L-80 232 L-62 236 L-56 120 Z M50 30 L72 66 L80 232 L62 236 L56 120 Z" fill="#a87a4c" />
         <path d="M-52 30 L-16 20 L0 86 L16 20 L52 30 L64 122 L60 318 L-60 318 L-64 122 Z" fill="#b98b5b" />
@@ -68,7 +68,7 @@ import { lien, boutique } from '../data/site';
       </g>
 
       <!-- Pull en maille -->
-      <g class="hp__vet" data-ex="352" data-ey="118" data-sx="455" data-sy="70" data-sr="7" data-ss="0.85">
+      <g class="hp__vet" data-ex="352" data-ey="118" data-sx="420" data-sy="20" data-sr="9" data-ss="0.85">
         <use href="#hp-cintre" />
         <path d="M-46 30 L-74 70 L-84 190 L-66 194 L-56 96 Z M46 30 L74 70 L84 190 L66 194 L56 96 Z" fill="url(#hp-maille)" stroke="#dccfbd" />
         <path d="M-48 30 Q-22 20 -14 22 Q0 40 14 22 Q22 20 48 30 L58 96 L56 196 L-56 196 L-58 96 Z" fill="url(#hp-maille)" stroke="#dccfbd" />
@@ -77,7 +77,7 @@ import { lien, boutique } from '../data/site';
       </g>
 
       <!-- Pantalon large -->
-      <g class="hp__vet" data-ex="470" data-ey="118" data-sx="640" data-sy="190" data-sr="5" data-ss="0.85">
+      <g class="hp__vet" data-ex="470" data-ey="118" data-sx="660" data-sy="120" data-sr="7" data-ss="0.85">
         <use href="#hp-cintre" />
         <rect x="-50" y="26" width="100" height="6" fill="#2b2b2b" />
         <path d="M-42 34 L42 34 L58 330 L12 330 L0 120 L-12 330 L-58 330 Z" fill="#1d1d1d" />
@@ -87,7 +87,7 @@ import { lien, boutique } from '../data/site';
       </g>
 
       <!-- Robe -->
-      <g class="hp__vet" data-ex="590" data-ey="118" data-sx="330" data-sy="300" data-sr="-6" data-ss="0.85">
+      <g class="hp__vet" data-ex="590" data-ey="118" data-sx="360" data-sy="300" data-sr="-8" data-ss="0.85">
         <use href="#hp-cintre" />
         <path d="M-22 26 L-18 60 M22 26 L18 60" stroke="#a10f62" stroke-width="5" />
         <path d="M-26 58 Q0 74 26 58 L34 124 L78 300 Q0 318 -78 300 L-34 124 Z" fill="#c8137a" />
@@ -96,7 +96,7 @@ import { lien, boutique } from '../data/site';
       </g>
 
       <!-- Sac -->
-      <g class="hp__vet" data-ex="652" data-ey="112" data-sx="560" data-sy="430" data-sr="-12" data-ss="0.9">
+      <g class="hp__vet" data-ex="652" data-ey="112" data-sx="590" data-sy="470" data-sr="-14" data-ss="0.9">
         <path d="M0 -10 L0 30" stroke="#2b2b2b" stroke-width="3" />
         <path d="M-26 70 Q-26 30 0 30 Q26 30 26 70" fill="none" stroke="#5e0f22" stroke-width="6" />
         <rect x="-38" y="66" width="76" height="62" rx="6" fill="#6b1526" />
@@ -105,7 +105,7 @@ import { lien, boutique } from '../data/site';
       </g>
 
       <!-- Bottines -->
-      <g class="hp__vet" data-ex="200" data-ey="576" data-sx="250" data-sy="500" data-sr="8" data-ss="0.9">
+      <g class="hp__vet" data-ex="200" data-ey="576" data-sx="210" data-sy="480" data-sr="10" data-ss="0.9">
         <path d="M-40 0 L-40 56 L-6 64 L-4 70 L-46 70 L-50 0 Z" fill="#161616" />
         <path d="M6 0 L6 56 L40 64 L42 70 L0 70 L-4 0 Z" fill="#232323" />
         <rect x="-50" y="68" width="48" height="4" fill="#000" />
@@ -139,6 +139,11 @@ import { lien, boutique } from '../data/site';
     var textes = Array.prototype.slice.call(sec.querySelectorAll('.hp__texte'));
     var points = Array.prototype.slice.call(sec.querySelectorAll('.hp__points li'));
     var etiquette = sec.querySelector('.hp__etiquette');
+    var portant = sec.querySelector('.hp__portant');
+    var entete = document.querySelector('.entete');
+    function mesurer() { if (entete) document.documentElement.style.setProperty('--entete', entete.offsetHeight + 'px'); }
+    mesurer();
+    window.addEventListener('resize', mesurer);
     var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var lisse = function (t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; };
     var borne = function (v) { return Math.max(0, Math.min(1, v)); };
@@ -171,6 +176,9 @@ import { lien, boutique } from '../data/site';
         dernier = pas;
       }
       etiquette.style.opacity = String(borne((p - 0.74) / 0.12));
+      var a = reduit ? 1 : lisse(borne((p - 0.1) / 0.2));
+      portant.style.opacity = String(a);
+      portant.setAttribute('transform', 'translate(0 ' + ((1 - a) * 30).toFixed(1) + ')');
       sec.classList.toggle('hp--defile', p > 0.04);
       if (visible && !reduit) requestAnimationFrame(rendre);
     }
@@ -190,9 +198,9 @@ import { lien, boutique } from '../data/site';
 <style>
   .hp { position: relative; height: 320vh; background: #f5f1ec; }
   .hp__scene {
-    position: sticky; top: 0; height: 100svh; overflow: hidden;
+    position: sticky; top: var(--entete, 60px); height: calc(100svh - var(--entete, 60px)); overflow: hidden;
     display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); align-items: center;
-    gap: clamp(1rem, 4vw, 4rem); padding: 5rem clamp(1.25rem, 5vw, 5rem) 3rem;
+    gap: clamp(1rem, 4vw, 4rem); padding: 1.5rem clamp(1.25rem, 5vw, 5rem) 3.2rem;
   }
   .hp__textes { position: relative; min-height: 22rem; }
   .hp__texte { position: absolute; inset: 0 0 auto 0; opacity: 0; transform: translateY(18px); transition: opacity 0.5s ease, transform 0.5s ease; pointer-events: none; }
@@ -211,7 +219,7 @@ import { lien, boutique } from '../data/site';
   }
   .hp__btn:hover, .hp__btn--plein { background: var(--encre); color: #fff; }
   .hp__btn--plein:hover { background: var(--fuchsia); border-color: var(--fuchsia); }
-  .hp__svg { width: 100%; height: auto; max-height: calc(100svh - 7rem); }
+  .hp__svg { width: 100%; height: auto; max-height: calc(100svh - var(--entete, 60px) - 5rem); }
   .hp__etiquette { opacity: 0; transition: opacity 0.2s; }
   .hp__points { position: absolute; right: clamp(0.8rem, 2vw, 1.6rem); top: 50%; translate: 0 -50%; list-style: none; margin: 0; padding: 0; display: grid; gap: 0.8rem; }
   .hp__points li { width: 9px; height: 9px; border-radius: 50%; border: 1.5px solid var(--encre); transition: background 0.3s; }
@@ -238,12 +246,12 @@ import { lien, boutique } from '../data/site';
 
   @media (max-width: 800px) {
     .hp { height: 280vh; }
-    .hp__scene { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto 1fr; align-items: start; padding: 7rem 1.25rem 3.5rem; gap: 0.5rem; }
+    .hp__scene { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto 1fr; align-items: start; padding: 1.2rem 1.25rem 3.5rem; gap: 0.5rem; }
     .hp__textes { min-height: 15rem; }
     .hp h1, .hp__titre { font-size: clamp(1.9rem, 8vw, 2.6rem); }
     .hp__chapo { font-size: 1rem; margin-top: 0.9rem; }
     .hp__actions { margin-top: 1.1rem; }
-    .hp__svg { max-height: 46svh; align-self: center; }
+    .hp__svg { max-height: 44svh; align-self: center; }
     .hp__points { display: none; }
     .hp__mention { display: none; }
   }
