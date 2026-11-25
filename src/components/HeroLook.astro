@@ -51,7 +51,7 @@ const departs: Record<string, { dx: number; dy: number; rz: number; ry: number; 
 
         <ul class="hl__reperes">
           {look.pieces.map((piece) => (
-            <li class="hl__repere" style={`left:${piece.x}%;top:${piece.y}%`}>
+            <li class={`hl__repere hl__repere--${piece.id}`} style={`left:${piece.x}%;top:${piece.y}%`}>
               <span class="hl__point"></span><span class="hl__nom">{piece.nom}</span>
             </li>
           ))}
@@ -243,7 +243,10 @@ const departs: Record<string, { dx: number; dy: number; rz: number; ry: number; 
     .hl h1, .hl__titre { font-size: clamp(1.7rem, 7.4vw, 2.4rem); }
     .hl__chapo { font-size: 0.98rem; margin-top: 0.7rem; }
     .hl__actions { margin-top: 0.9rem; }
-    .hl__btn { padding: 0.7rem 1.1rem; }
+    .hl__actions { flex-wrap: nowrap; gap: 0.5rem; }
+    .hl__btn { padding: 0.65rem 0.8rem; font-size: 0.68rem; }
+    .hl__textes { min-height: 12rem; }
+    .hl__repere--top { display: none; }
     .hl__cadre { right: auto; left: 50%; translate: -50% -50%; }
     .hl__encart, .hl__points, .hl__defiler { display: none; }
     .hl__nom { font-size: 0.62rem; padding: 0.22rem 0.45rem; }
