@@ -81,11 +81,18 @@ export const vetements: Record<string, string> = {
   </svg>`,
 
   escarpins: `<svg viewBox="0 0 100 150">${defs('es', `
-      <linearGradient id="es-daim" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4a72c2"/><stop offset=".5" stop-color="#2f56a3"/><stop offset="1" stop-color="#1b3571"/></linearGradient>`)}
-    <path d="M57.2 144.6 Q57.4 141.2 60 140.8 L61.2 142.6 Q63.6 144.6 67.6 145.6 Q69 146.4 67.4 147 L58.4 147 Z" fill="url(#es-daim)"/>
-    <path d="M57.4 145.6 L57 149 L58 149 L58.4 146.4 Z" fill="#1b3571"/>
-    <path d="M60 140.8 Q61.2 142.2 61.2 142.6" fill="none" stroke="#9fb6e4" stroke-width=".3"/>
-    <path d="M64.2 144 Q64.4 140.6 67 140.2 L68.2 142 Q70.6 144 74.6 145 Q76 145.8 74.4 146.4 L65.4 146.4 Z" fill="url(#es-daim)" opacity=".92"/>
-    <path d="M64.4 145 L64 148.4 L65 148.4 L65.4 145.8 Z" fill="#1b3571"/>
+      <linearGradient id="es-daim" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5b82d0"/><stop offset=".45" stop-color="#3159a8"/><stop offset="1" stop-color="#1c3672"/></linearGradient>
+      <linearGradient id="es-reflet" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".45"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>`)}
+    <!-- escarpin du fond -->
+    <g transform="translate(7.4 -0.8)" opacity=".9">
+      <path d="M57 146.6 Q57.6 144.2 61 143.9 Q63.6 143.7 65.3 142.5 L66.9 141.1 Q67.7 140.5 68.3 141.3 L68.5 146.6 Z" fill="url(#es-daim)"/>
+      <path d="M67.3 146.4 L68.7 146.4 L68.1 150.4 L67.7 150.4 Z" fill="#14285a"/>
+    </g>
+    <!-- escarpin du premier plan -->
+    <path d="M57 146.6 Q57.6 144.2 61 143.9 Q63.6 143.7 65.3 142.5 L66.9 141.1 Q67.7 140.5 68.3 141.3 L68.5 146.6 Z" fill="url(#es-daim)"/>
+    <path d="M61 143.9 Q63.6 143.7 65.3 142.5 L66.9 141.1" fill="none" stroke="#0f1f4a" stroke-width=".35"/>
+    <path d="M58.4 145.2 Q62 144.6 65 143.6" fill="none" stroke="url(#es-reflet)" stroke-width=".6"/>
+    <path d="M56.9 146.8 Q62.4 147.3 68.6 146.7" fill="none" stroke="#0b1636" stroke-width=".5"/>
+    <path d="M67.3 146.4 L68.7 146.4 L68.1 150.4 L67.7 150.4 Z" fill="#14285a"/>
   </svg>`,
 };
