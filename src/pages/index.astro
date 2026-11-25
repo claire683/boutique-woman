@@ -185,7 +185,7 @@ const portraits = [magazine.noirEtBlanc, bonjourWoman[1], bonjourWoman[2], bonjo
 
   /* LA BOUTIQUE */
   .boutique { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: center; }
-  .boutique__photo { aspect-ratio: 4 / 5; overflow: hidden; }
+  .boutique__photo { aspect-ratio: 4 / 5; max-height: 88vh; width: 100%; overflow: hidden; }
   .boutique__photo img { width: 100%; height: 100%; object-fit: cover; }
   .boutique__texte { padding: clamp(2.5rem, 6vw, 6rem); max-width: 40rem; }
   .boutique__texte h2 { font-size: clamp(1.8rem, 3.4vw, 3rem); margin-bottom: 1.6rem; }
