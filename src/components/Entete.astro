@@ -39,7 +39,8 @@ const liens = [
   .entete__tel { font-weight: 500; }
   @media (max-width: 860px) {
     .entete__barre { flex-wrap: wrap; height: auto; padding-block: 0.7rem; row-gap: 0.4rem; }
-    nav { order: 3; width: 100%; overflow-x: auto; }
+    nav { order: 3; width: 100%; overflow-x: auto; scrollbar-width: none; }
+    nav::-webkit-scrollbar { display: none; }
     .entete__menu { gap: 1.4rem; white-space: nowrap; padding-bottom: 0.2rem; }
   }
 </style>

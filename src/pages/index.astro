@@ -64,7 +64,7 @@ const bandeau = ['Nouveautés toutes les semaines', '100 % Liu Jo', 'Jeans', 'Sp
   <section id="collections" class="collections">
     <div class="wrap">
       <p class="kicker">Les collections</p>
-      <h2>Tout l'univers <em>Liu Jo</em>,<br />du jean à la robe du soir.</h2>
+      <h2>Tout l'univers <em>Liu&nbsp;Jo</em>,<br />du jean à la robe du soir.</h2>
       <ul class="collections__grille">
         {collections.map((c) => (
           <li class="collection">
@@ -247,7 +247,7 @@ const bandeau = ['Nouveautés toutes les semaines', '100 % Liu Jo', 'Jeans', 'Sp
     line-height: 0.8; margin: 0; color: var(--fuchsia);
   }
   .huit h2 { font-size: clamp(2.6rem, 6vw, 5rem); margin: 0.6rem 0 1.2rem; color: #fff; }
-  .huit p { max-width: 30rem; font-size: 1.15rem; }
+  .huit p:not(.kicker) { max-width: 30rem; font-size: 1.15rem; }
   .huit .citation { color: #fff; }
   .btn--rose { background: var(--rose); color: var(--bordeaux); border-color: var(--rose); margin-top: 1rem; }
   .btn--rose:hover { background: #fff; color: var(--bordeaux); border-color: #fff; }
