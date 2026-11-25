@@ -9,7 +9,7 @@ export default defineConfig({
   integrations: [sitemap({ filter: (page) => !/mentions-legales|politique-rgpd/.test(page) })],
   // Anciennes adresses du site WordPress : on les renvoie vers la bonne section
   redirects: {
-    '/collection': `${(process.env.BASE ?? '').replace(/\/$/, '')}/#collections`,
+    '/collection': `${(process.env.BASE ?? '').replace(/\/$/, '')}/#vestiaire`,
     '/venir-en-boutique': `${(process.env.BASE ?? '').replace(/\/$/, '')}/#venir`,
   },
 });

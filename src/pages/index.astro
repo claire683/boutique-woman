@@ -358,7 +358,8 @@ const mosaique = [magazine.noirEtBlanc, bonjourWoman[1], bonjourWoman[2], bonjou
     .vestiaire__grille { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.6rem 0.9rem; }
     .vestiaire__grille .piece { grid-column: auto; }
     .vestiaire__grille .piece--0, .vestiaire__grille .piece--5 { grid-column: 1 / -1; }
-    .piece--0 figure, .piece--5 figure { aspect-ratio: 4 / 3; }
+    .vestiaire__grille .piece figure { aspect-ratio: 4 / 5; }
+    .vestiaire__grille .piece--0 figure, .vestiaire__grille .piece--5 figure { aspect-ratio: 4 / 3; }
     .huit__grille, .venir__grille, .article { grid-template-columns: minmax(0, 1fr); }
     .article__photo--b { margin-top: 0; }
     .courrier__grille { grid-template-columns: minmax(0, 1fr); }
