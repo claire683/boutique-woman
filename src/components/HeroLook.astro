@@ -205,7 +205,7 @@ const ia: Record<string, { l: number; t: number; w: number; decroche: number; cr
 </script>
 
 <style>
-  .hl { position: relative; height: 340vh; background: #f4efe9; }
+  .hl { position: relative; height: 340vh; background: #f6f5f3; }
   .hl__scene {
     position: sticky; top: var(--entete, 60px); height: calc(100svh - var(--entete, 60px)); overflow: hidden;
     display: grid; grid-template-columns: minmax(17rem, 31rem) minmax(0, 1fr); align-items: center;
@@ -247,13 +247,13 @@ const ia: Record<string, { l: number; t: number; w: number; decroche: number; cr
   .hl__mention { position: absolute; right: 0; bottom: -2.2rem; margin: 0; font: 500 0.62rem/1 var(--titre); letter-spacing: 0.16em; text-transform: uppercase; color: #6b6460; z-index: 5; white-space: nowrap; }
   /* Le décor de la boutique, derrière le portant */
   .hl__deco {
-    position: absolute; inset: -0.5rem -2rem 0; overflow: hidden;
-    -webkit-mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent), linear-gradient(#000 85%, transparent);
-    -webkit-mask-composite: source-in; mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent), linear-gradient(#000 85%, transparent);
+    position: absolute; inset: 9% 7% 7%; overflow: hidden; border-radius: 4px;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent), linear-gradient(transparent, #000 15%, #000 75%, transparent);
+    -webkit-mask-composite: source-in; mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent), linear-gradient(transparent, #000 15%, #000 75%, transparent);
     mask-composite: intersect;
   }
   /* Léger flou de profondeur : les vêtements restent nets au premier plan */
-  .hl__deco :global(svg) { width: 100%; height: 100%; display: block; filter: blur(1.4px) saturate(0.85) brightness(1.03); opacity: 0.85; }
+  .hl__deco :global(svg) { width: 100%; height: 100%; display: block; filter: grayscale(1) contrast(0.7) brightness(1.1) blur(2px); opacity: 0.4; }
   /* La barre du portant et ses montants */
   .hl__rayon { position: absolute; height: 1.1%; border-radius: 99px; background: linear-gradient(#5a5a5a, #1c1c1c 60%, #000); translate: 0 -50%; box-shadow: 0 4px 10px rgb(0 0 0 / 0.15); }
   .hl__rayon::before, .hl__rayon::after { content: ''; position: absolute; top: 50%; width: 0.7%; min-width: 4px; height: 8800%; background: linear-gradient(90deg, #2a2a2a, #555, #1a1a1a); }
