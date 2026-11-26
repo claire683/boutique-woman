@@ -22,7 +22,17 @@ for (const chemin of chemins) {
     const entree = await sharp(source).rotate().resize({ height: 1600, withoutEnlargement: true }).png().toBuffer();
     const blob = await removeBackground(new Blob([entree], { type: 'image/png' }), { model: 'medium', output: { format: 'image/png' } });
     const png = Buffer.from(await blob.arrayBuffer());
-    const sortie = await sharp(png).trim({ threshold: 1 }).webp({ quality: 80, alphaQuality: 90 }).toBuffer();
+    // Recadrage sur la silhouette nette (on ignore le voile semi-transparent laissé autour, ombres comprises)
+    const { data, info } = await sharp(png).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+    let x0 = info.width, y0 = info.height, x1 = 0, y1 = 0;
+    for (let y = 0; y < info.height; y++) for (let x = 0; x < info.width; x++) {
+      if (data[(y * info.width + x) * 4 + 3] > 140) { if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; }
+    }
+    // Les pixels très transparents sont effacés pour que le recadrage tombe pile sous les pieds
+    for (let i = 3; i < data.length; i += 4) if (data[i] < 40) data[i] = 0;
+    const sortie = await sharp(data, { raw: { width: info.width, height: info.height, channels: 4 } })
+      .extract({ left: x0, top: y0, width: x1 - x0 + 1, height: y1 - y0 + 1 })
+      .webp({ quality: 80, alphaQuality: 90 }).toBuffer();
     await writeFile(cible, sortie);
     console.log('détouré', chemin, Math.round(sortie.length / 1024) + ' ko');
   } catch (e) {
